@@ -46,6 +46,20 @@ table.cechy th,table.cechy td{padding:11px 14px;text-align:left;border-bottom:1p
 table.cechy th{background:#f7f7f8;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 table.cechy td:first-child{font-weight:600;width:180px}
 h3.sek{margin:10px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.btn-szcz{display:block;margin:0 auto 18px;font:inherit;font-weight:600;cursor:pointer;padding:11px 20px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow);color:var(--ink)}
+.btn-szcz:hover{border-color:var(--accent)}
+.szcz{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 26px}
+@media(max-width:760px){.szcz{grid-template-columns:1fr}}
+.szcz .col{display:flex;flex-direction:column;gap:12px}
+.szcz .col>h3{font-size:15px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+.op-pkg{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.op-pkg .op-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.op-pkg .op-head b{font-size:15px}
+.op-pkg .op-head .op-cena{font-size:13px;color:var(--muted);white-space:nowrap}
+.op-course{font-size:13.5px;line-height:1.45;margin:4px 0}
+.op-course .lab{color:var(--accent);font-weight:600}
+.op-pkg.kl .op-course .lab{color:var(--accent2)}
+.op-empty{color:var(--muted);font-size:13px;font-style:italic}
 </style>
 </head>
 <body>
@@ -56,6 +70,7 @@ h3.sek{margin:10px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing
 
 <section id="panel" class="wrap"></section>
 <section id="cols" class="wrap"></section>
+<section id="szczegolySek" class="wrap"></section>
 <section id="cechy" class="wrap"></section>
 
 <script>
@@ -96,6 +111,149 @@ const OFERTY = {
 };
 const DNI=[["pon","Poniedziałek"],["wt","Wtorek"],["sr","Środa"],["czw","Czwartek"],["pt","Piątek"],["sob","Sobota"],["nd","Niedziela"]];
 const fmtPLN = n => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN',maximumFractionDigits:0}).format(Math.round(n));
+
+// Zawartość pakietów (źródło: parsed/*.md). Klucz menu/obiad = obiekt {danie:opis}; reszta = string.
+const BOHO_ZIMNY_BUFET = "Mięsa pieczone i regionalne wędliny • Pasztet wiejski z owocami suszonymi • Deska serów europejskich z owocową mostardą • Breitling z zielonego śledzia • Śledź matias z cebulką i musztardą francuską • Mini tarty z musem z łososia i koziego sera • Sałatka cezar z kurczakiem i bekonem • Sałatka grecka • Sałatka à la caprese z pesto • Pikle i marynowane warzywa • Papryczki nadziewane serem • Nachos z dipami • Masła smakowe z pieczywem na zakwasie";
+const OPISY = {
+  boho:{
+    menu:{
+      I:{ "Przystawka (1 do wyboru)":"Pastrami na korzennym pieczywie z relishem ogórkowym i selekcją sałat • Indyk w ziołach na maślanej brioche z salsą paprykową",
+          "Zupa (1 do wyboru)":"Rosół wołowo-drobiowy z domowym makaronem • Krem z zielonego groszku z pancettą • Krem z białych warzyw z gruszką i orzechami włoskimi",
+          "Danie główne (2 porcje/os, 3 do wyboru)":"Polędwiczka wieprzowa z suszonymi pomidorami w szynce parmeńskiej • Rolada śląska wołowa • Schab nadziewany salsiccią i chorizo • Roladka z indyka z grzybami i pancettą • Pierś z kurczaka zagrodowego w tymianku",
+          "Dodatki skrobiowe (2 do wyboru)":"Kluski śląskie • Pieczone ziemniaki z czosnkiem i rozmarynem • Kasza gryczana na wędzonej słoninie • Ziołowe puree • Gratin ziemniaczany z batatów",
+          "Dodatki warzywne (3 do wyboru)":"Modra kapusta • Biała kapusta zasmażana • Fasolka szparagowa z panko • Buraki z octem balsamicznym i mascarpone",
+          "Pierwsza kolacja (1 do wyboru)":"Polędwiczka wieprzowa z kurkami i gnocchi • De volaille z masłem czosnku niedźwiedziego • Kurczak supreme z batatem i sosem demi-glace",
+          "Druga kolacja (1 do wyboru)":"Żur na zakwasie z kiełbasą i borowikami • Barszcz czerwony z pasztecikiem",
+          "Deser (1 do wyboru)":"Panna cotta maślankowa z prosecco i brzoskwiniami • Krem z białej czekolady z wiśniami w wiśniówce • Creme brûlée z rabarbarem i lodami",
+          "Zimny bufet":BOHO_ZIMNY_BUFET },
+      II:{ "Przystawka (1 do wyboru)":"Pastrami z relishem ogórkowym • Łosoś wędzony na gofrze ziemniaczanym z twarożkiem i kozim serem • Indyk w ziołach na brioche",
+          "Zupa (1 do wyboru)":"Rosół wołowo-drobiowy z makaronem • Krem z zielonego groszku z pancettą • Krem z białych warzyw z gruszką i orzechami",
+          "Danie główne (2 porcje/os, 3 do wyboru)":"Polędwiczka wieprzowa w szynce parmeńskiej • Rolada śląska wołowa • Schab z salsiccią i chorizo • Roladka z indyka • Pierś z kurczaka zagrodowego",
+          "Dodatki skrobiowe (2 do wyboru)":"Kluski śląskie • Pieczone ziemniaki • Kasza gryczana na słoninie • Ziołowe puree • Gratin z batatów",
+          "Dodatki warzywne (3 do wyboru)":"Modra kapusta • Biała kapusta zasmażana • Fasolka szparagowa z panko • Buraki z balsamico i mascarpone",
+          "Pierwsza kolacja (1 do wyboru)":"Polędwiczka z kurkami i gnocchi • De volaille z czosnkiem niedźwiedzim • Kurczak supreme z batatem • Udko z kaczki ze strudlem ziemniaczanym i gorgonzolą",
+          "Druga kolacja (1 do wyboru)":"Strogonow wołowy z musztardą francuską • Tom Kha Gai z kurczakiem • Chili con carne z nachosami",
+          "Trzecia kolacja (1 do wyboru)":"Żur na zakwasie z kiełbasą i borowikami • Barszcz czerwony z pasztecikiem",
+          "Deser (1 do wyboru)":"Panna cotta z prosecco i brzoskwiniami • Krem z białej czekolady z bobu tonka, borówkami i trawą cytrynową • Creme brûlée z rabarbarem i lodami",
+          "Zimny bufet":BOHO_ZIMNY_BUFET },
+      III:{ "Przystawka (1 do wyboru)":"Pastrami • Łosoś wędzony z twarożkiem i kozim serem • Vitello tonnato z orzechem laskowym • Indyk na brioche • Tatar wołowy z grzybami i majonezem szczypiorkowym (+10 zł)",
+          "Zupa (1 do wyboru)":"Rosół wołowo-drobiowy z makaronem • Krem z zielonego groszku z pancettą • Krem grzybowy z crème fraîche i oliwą truflową",
+          "Danie główne (2 porcje/os, 4 do wyboru)":"Policzek wołowy w czerwonym winie • Schab ze świni złotnickiej z salsiccią i chorizo • Łosoś pieczony • Rolada śląska wołowa • Udko z kaczki w glazurze miodowej • Polędwiczka z musem grzybowym w boczku • Roladka z indyka • Filet z kurczaka zagrodowego",
+          "Dodatki skrobiowe (3 do wyboru)":"Kluski śląskie • Pieczone ziemniaki • Gratin z batatów • Kasza gryczana na słoninie • Kremowe purée ziołowe • Gnocchi buraczane z parmezanem",
+          "Dodatki warzywne (3 do wyboru)":"Modra kapusta • Biała kapusta zasmażana • Brokuł z kruszonką ziołowo-orzechową • Fasolka szparagowa z panko • Buraki z balsamico i mascarpone",
+          "Pierwsza kolacja (1 do wyboru)":"Pieczony łosoś z zielonym groszkiem, miętą i sosem z zielonego pieprzu • Polędwiczka à la wellington z kalafiorem • Pierś z kaczki na puree z selera z białą czekoladą i kaszą gryczaną",
+          "Druga kolacja (1 do wyboru)":"Beef Burgino na purée • Strogonow wołowy z musztardą francuską • Tom Kha Gai z kurczakiem",
+          "Trzecia kolacja (1 do wyboru)":"Marokańska zupa harira z wołowiną • Żur z kiełbasą i borowikami • Barszcz czerwony z pasztecikiem",
+          "Deser (1 do wyboru)":"Panna cotta z prosecco • Krem z białej czekolady z bobu tonka • Fondant czekoladowy z lodami malinowymi i rozmarynem • Tartoletka pistacjowa z białą czekoladą i malinami",
+          "Zimny bufet":BOHO_ZIMNY_BUFET },
+      IV:{ "Charakter":"Menu serwowane — jedna pozycja wybrana z menu dla wszystkich Gości.",
+          "Przystawka (1 do wyboru)":"Pastrami • Łosoś wędzony z twarożkiem i kozim serem • Pâté grzybowe na grzance z piklowaną cebulą i crunchem orzechowym • Vitello tonnato z orzechem laskowym • Tatar wołowy z grzybami i majonezem szczypiorkowym (+10 zł)",
+          "Zupa (1 do wyboru)":"Rosół wołowo-drobiowy z makaronem • Krem z zielonego groszku z pancettą • Consommé grzybowe z pierożkami drobiowymi i oliwą pietruszkową",
+          "Danie główne (1 do wyboru)":"Policzek wołowy na purée z warzywami i chrustem pasternakowym • Polędwiczka z gratin, krupniokiem i puree buraczanym • Pierś z kurczaka z ziemniakiem hasselback i sosem tymiankowym • Pieczone udko z kaczki z kluseczkami i czerwoną kapustą",
+          "Pierwsza kolacja (1 do wyboru)":"Gulasz z dzika z kopytkami i kiszoną kapustą z czarną porzeczką • Polędwiczka à la wellington z kalafiorem • Risotto grzybowe z pieczonym schabem i demi-glace",
+          "Druga kolacja (1 do wyboru)":"Beef Burgino na purée • Pierś z kaczki na puree z selera z białą czekoladą i kaszą gryczaną • Szynka wieprzowa w glazurze miodowej z kwaśną kapustą",
+          "Trzecia kolacja (1 do wyboru)":"Żur z kiełbasą i borowikami • Barszcz czerwony z pasztecikiem • Pikantna zupa z ciecierzycą i kurczakiem",
+          "Deser (1 do wyboru)":"Panna cotta z prosecco • Tiramisu pistacjowe • Fondant czekoladowy z lodami malinowymi • Tartoletka pistacjowa z białą czekoladą i malinami",
+          "Zimny bufet":BOHO_ZIMNY_BUFET }
+    },
+    napoje:{
+      I:"Woda gazowana i niegazowana • Sok 100% • Herbata i kawa z ekspresu (samoobsługa) • Napoje gazowane (Coca-Cola, Fanta, Sprite). Opłata korkowa nie obowiązuje.",
+      II:"Woda gazowana i niegazowana • Sok 100% • Herbata i kawa z ekspresu • Napoje gazowane • Piwo kraftowe • Wino białe i czerwone • Wódka Wyborowa (możliwość zamiany do wyceny)."
+    },
+    bufet:{
+      srodziemnomorski:"Wędliny dojrzewające (prosciutto Parma DOP, coppa, mortadela z pistacjami, salami) • Deska włoskich serów • Burrata z pomidorami i bazylią • Oliwki z migdałami • Hummus i pasta z suszonych pomidorów • Papryki z serkiem • Melon z szynką • Focaccia • Oliwy i octy owocowe",
+      street:"Mini burgery wołowe • Mini burgery wegetariańskie • Stripsy z kurczaka z dipami • Mini bajgel z pulled pork • Mini bajgel z łososiem i philadelphią • Pieczony falafel z hummusem • Azjatycki wrap mini",
+      swojski:"Mięsa wędzone • Krupniok • Wiejski pasztet ze śliwką i pistacją • Pasztet pieczony z grzybami • Kiełbasy swojskie • Salceson • Pieczywo na zakwasie • Ogórek małosolny • Smalec z wędzoną słoniną"
+    }
+  },
+  kleser:{
+    obiadTalerz:{
+      I:{ "Przystawka (do wyboru)":"Sałatka cezar z kurczakiem • Focaccia / ricotta / smażone pomidory / bazylia / słonecznik / mix ziół",
+          "Zupa (do wyboru)":"Bulion wołowo-drobiowy / makaron • Krem z zielonego groszku / pangrattato z chorizo / kwaśna śmietana",
+          "Danie główne (do wyboru)":"Polędwiczka wieprzowa sous-vide / puree / sezonowe warzywa • Ragout z policzków wieprzowych / kluski śląskie • Filet z kurczaka / ziemniaki z czosnkiem i rozmarynem",
+          "Deser (do wyboru)":"Crème brûlée • Panna cotta" },
+      II:{ "Przystawka (do wyboru)":"Burrata / pesto / oliwa bazyliowa / chrust / carpaccio z pomidorów • Wolno pieczony rostbef / sos z zielonego pieprzu / grzanka / prażona cebula • Gravlax z łososia / pumpernikiel / ogórek / sos musztardowy / pikle",
+          "Zupa (do wyboru)":"Bulion wołowo-drobiowy / makaron • Krem z białych sezonowych warzyw (szparagi lub topinambur)",
+          "Danie główne (do wyboru)":"Udko z kurczaka / ziemniaki z czosnkiem • Confitowane udko z kaczki / kluski śląskie • Ragout z policzków wołowych / puree z pietruszki • Rolada wołowa / kluski / modra kapusta • Polędwiczka wieprzowa / gnocchi",
+          "Deser (do wyboru)":"Beza / mascarpone / owoce / mus owocowy • Semifreddo z pistacjami i musem malinowym" },
+      III:{ "Przystawka (do wyboru)":"Tatar wołowy / szalotka / grzanka / majonez grzybowy / pikle • Carpaccio z tuńczyka / sos mango / zielona oliwa • Focaccia / młode warzywa / ricotta / trufla",
+          "Zupa (do wyboru)":"Bulion na gęsinie / tortellini z mięsem • Cappuccino borowikowe",
+          "Danie główne (do wyboru)":"Gęś lub kaczka confitowana / kluski śląskie • Ragout z policzków wołowych / puree z pietruszki • Polędwica wołowa lub z jelenia / puree • Jagnięcina / kluski śląskie",
+          "Deser (do wyboru)":"Beza / mascarpone / owoce • Semifreddo z pistacjami i malinami • Tarta cytrynowa / beza włoska" }
+    },
+    obiadPatera:{
+      I:{ "Serwis":"Danie główne na paterach — goście komponują własne porcje; ok. 1,5 porcji mięsa/os.",
+          "Przystawka (do wyboru)":"Burrata / pesto / oliwa bazyliowa / carpaccio z pomidorów • Gravlax z łososia / pumpernikiel / ogórek / sos musztardowy • Sałatka cezar z kurczakiem",
+          "Zupa":"Bulion wołowo-drobiowy / makaron",
+          "Danie główne":"Rolada wołowa • Polędwiczka wieprzowa sous-vide • Confitowane udko z kaczki • Udko z kurczaka z chrupiącą skórką • Ragout z policzków wołowych",
+          "Dodatki":"Kluski śląskie / zapiekane ziemniaki • Modra / młoda / zasmażana kapusta / colesław / buraki / sezonowe warzywa",
+          "Deser (do wyboru)":"Beza / mascarpone / owoce • Semifreddo z pistacjami i malinami" }
+    },
+    napoje:{
+      I:"Woda w karafkach z cytrusami i ziołami • Woda gazowana i niegazowana (butelkowana) • Soki owocowe i napoje gazowane • Herbata i kawa",
+      II:"Woda w karafkach • Woda gaz./niegaz. (butelkowana) • Soki i napoje gazowane • Herbata i kawa • Wino białe i czerwone",
+      III:"Woda w karafkach • Woda gaz./niegaz. (butelkowana) • Soki i napoje gazowane • Herbata i kawa • Piwo butelkowe • Wino białe i czerwone • Wódka (Finlandia)"
+    },
+    korkowe:"Alkohol własny: opłata korkowa za osobę dorosłą obejmuje serwis — schłodzenie i podanie do stołów (zamiast pakietu napojów).",
+    dodatki:{
+      bufetZimno:"Śródziemnomorski: włoskie sery i wędliny • Antipasti (oliwki, karczochy, kapary, suszone pomidory) • Pasty do smarowania • Pieczywo na zakwasie i focaccia • Długo pieczony rostbef • Gravlax z sosem koperkowym • Sałatki: caprese, cezar, grecka, tabbouleh",
+      meksyk:"Taco lub tostady z kurczakiem/wołowiną, guacamole, świeże zioła, pikle • Chilli con carne, nachosy, kwaśna śmietana, meksykańskie sosy, kolendra",
+      liveCooking:"Włoskie pasty — 3 sosy (wege / mięsny / owoce morza) z parmezanem • Hiszpańska paella (mięsna / wege / owoce morza / mixta) — popisowe danie z MasterChef",
+      pizza:"Włoska pizza neapolitańska wypiekana na oczach gości w piecu na drewno; ciasto dojrzewa min. 24h, cienkie z wyrośniętymi brzegami",
+      burgery:"Soczyste burgery z rusztu w maślanych brioszkach, szeroki wybór dodatków i autorskich sosów",
+      bliskiWschod:"Aromatyczny grill: wołowe kofty i souvlaki z kurczaka, świeże i grillowane warzywa, sosy, lawasz lub pilaw",
+      kolacjaSerw:{
+        I:"Ravioli / palone masło / parmezan • Gyoza warzywne • Pierogi ruskie • Arancini • Krokiety la bomba / chorizo • Gnocchi / kurczak",
+        II:"Grecka musaka • Lasagna bolognese • Pasta fresca z ragù wołowym • Sznycel drobiowy / cezar • Schabowy z sałatką ziemniaczaną • Tagine z kurczaka / kuskus",
+        III:"Kofty wołowo-jagnięce w lawaszu • Burger pulled pork • Koreańskie bulgogi z basmati • Krewetki / czosnek / wino • Dorada w papilotach • Ośmiornica po galicyjsku"
+      },
+      cieplaMiska:{
+        I:"Barszczyk czerwony z kołdunami • Żur na maślance z grzybami i jajkiem • Krem pomidorowo-paprykowy z kluskami z ricotty • Zupa cebulowa z grzanką",
+        II:"Chilli con carne / nachos • Wołowina po burgundzku • Kurczak tikka masala / basmati • Curry z wołowiną / ryż jaśminowy • Zupa tajska z kurczakiem lub krewetkami",
+        III:"Zupa pho z wołowiną • Ramen tantanmen • Bouillabaisse — francuska zupa rybna z owocami morza"
+      },
+      slodkiStol:"Sernik baskijski, ciasto czekoladowe na migdałach, makaroniki, mini bezy Pavlova, crème brûlée, tiramisu, panna cotta, cannoli (3 lub 5 sztuk wg wyboru). Wypiek na miejscu przez Jolę Kleser."
+    }
+  }
+};
+
+// Buduje kartę opisu pakietu: tytuł + cena + zawartość (obiekt danie:opis lub string)
+function blokOpis(tytul, cena, dane, kl){
+  let body;
+  if(dane && typeof dane==='object'){
+    body = Object.entries(dane).map(([lab,txt])=>`<div class="op-course"><span class="lab">${lab}:</span> ${txt}</div>`).join("");
+  } else {
+    body = `<div class="op-course">${dane}</div>`;
+  }
+  return `<div class="op-pkg${kl?' kl':''}">
+    <div class="op-head"><b>${tytul}</b>${cena?`<span class="op-cena">${cena}</span>`:""}</div>
+    ${body}
+  </div>`;
+}
+function szczegolyBoho(ob){
+  const O=OPISY.boho, P=OFERTY.boho;
+  let h = blokOpis("Menu "+ob.menu, P.menu[ob.menu]+" zł/os", O.menu[ob.menu], false);
+  h += blokOpis("Napoje — wersja "+ob.napoje, P.napoje[ob.napoje]+" zł/os", O.napoje[ob.napoje], false);
+  const nazwyB={srodziemnomorski:"Bufet śródziemnomorski",street:"Bufet street food",swojski:"Bufet swojski"};
+  if(ob.opcje && ob.opcje.bufet) h += blokOpis(nazwyB[ob.opcje.bufet], P.bufet[ob.opcje.bufet]+" zł/os", O.bufet[ob.opcje.bufet], false);
+  return h;
+}
+function szczegolyKleser(ok){
+  const O=OPISY.kleser, P=OFERTY.kleser, D=O.dodatki;
+  const zrCena = ok.styl==="patera" ? P.obiadPatera[ok.pakiet] : P.obiadTalerz[ok.pakiet];
+  const zrOpis = ok.styl==="patera" ? O.obiadPatera[ok.pakiet] : O.obiadTalerz[ok.pakiet];
+  let h = blokOpis("Obiad ("+(ok.styl==="patera"?"patera":"talerz")+") — Pakiet "+ok.pakiet, zrCena+" zł/os", zrOpis, true);
+  if(ok.korkowe) h += blokOpis("Korkowe", P.korkowe+" zł/os", O.korkowe, true);
+  else h += blokOpis("Napoje — Pakiet "+ok.napoje, P.napoje[ok.napoje]+" zł/os", O.napoje[ok.napoje], true);
+  const d=ok.dodatki||{};
+  const flat={bufetZimno:["Bufet na zimno",P.dodatki.bufetZimno],meksyk:["Ciepła kolacja Meksyk",P.dodatki.meksyk],liveCooking:["Live cooking",P.dodatki.liveCooking],pizza:["Pizza w ogrodzie",P.dodatki.pizza],burgery:["Burgery w ogrodzie",P.dodatki.burgery],bliskiWschod:["Bliski Wschód",P.dodatki.bliskiWschod]};
+  Object.keys(flat).forEach(k=>{ if(d[k]) h += blokOpis(flat[k][0], flat[k][1]+" zł/os", D[k], true); });
+  if(d.kolacjaSerw) h += blokOpis("Kolacja serwowana — Opcja "+d.kolacjaSerw, P.dodatki.kolacjaSerw[d.kolacjaSerw]+" zł/os", D.kolacjaSerw[d.kolacjaSerw], true);
+  if(d.cieplaMiska) h += blokOpis("Ciepła miska — Opcja "+d.cieplaMiska, P.dodatki.cieplaMiska[d.cieplaMiska]+" zł/os", D.cieplaMiska[d.cieplaMiska], true);
+  if(d.slodkiStol)  h += blokOpis("Słodki stół ("+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+")", P.dodatki.slodkiStol[d.slodkiStol]+" zł/os", D.slodkiStol, true);
+  return h;
+}
+let pokazSzczegoly=false;
 
 function liczBoho(w){
   const O=OFERTY.boho;
@@ -270,8 +428,9 @@ function wynikDoUI(id, wynik){
 }
 function render(){
   const c=stanWspolny();
-  const wb=liczBoho(odczytBoho(c));
-  const wk=liczKleser(odczytKleser(c));
+  const ob=odczytBoho(c), ok=odczytKleser(c);
+  const wb=liczBoho(ob);
+  const wk=liczKleser(ok);
   wynikDoUI('boho', wb);
   wynikDoUI('kleser', wk);
   const cb=document.getElementById('card_boho'), ck=document.getElementById('card_kleser');
@@ -279,12 +438,27 @@ function render(){
   ck.classList.toggle('win', wk.suma<wb.suma);
   const tanszy = wb.suma<=wk.suma ? OFERTY.boho.nazwa : OFERTY.kleser.nazwa;
   document.getElementById('diff').innerHTML = `Taniej: <b>${tanszy}</b> &nbsp;•&nbsp; różnica <b>${fmtPLN(Math.abs(wb.suma-wk.suma))}</b>`;
+  renderSzczegoly(ob, ok);
+}
+function renderSzczegoly(ob, ok){
+  const btn=document.getElementById('btnSzcz'), box=document.getElementById('szczBox');
+  if(!btn||!box) return;
+  btn.textContent = (pokazSzczegoly?"Ukryj":"Pokaż")+" szczegóły wybranych pakietów";
+  if(!pokazSzczegoly){ box.innerHTML=""; return; }
+  box.innerHTML = `<div class="szcz">
+    <div class="col"><h3 style="color:var(--boho)">Boho Pogoria — zawartość wyboru</h3>${szczegolyBoho(ob)}</div>
+    <div class="col"><h3 style="color:var(--kleser)">Przystanek Południe (Kleser) — zawartość wyboru</h3>${szczegolyKleser(ok)}</div>
+  </div>`;
 }
 
 document.getElementById('panel').innerHTML = panelHTML();
 document.getElementById('cols').innerHTML =
   `<div class="cols">${kartaHTML('boho',OFERTY.boho.nazwa,selBoho(),'var(--boho)')}${kartaHTML('kleser','Przystanek Południe (Kleser)',selKleser(),'var(--kleser)')}</div>
    <div class="diff" id="diff"></div>`;
+document.getElementById('szczegolySek').innerHTML =
+  `<button id="btnSzcz" class="btn-szcz" type="button">Pokaż szczegóły wybranych pakietów</button>
+   <div id="szczBox"></div>`;
+document.getElementById('btnSzcz').addEventListener('click',()=>{ pokazSzczegoly=!pokazSzczegoly; render(); });
 function odswiezPakiety(){
   const styl=document.getElementById('k_styl').value;
   const zr = styl==="patera" ? OFERTY.kleser.obiadPatera : OFERTY.kleser.obiadTalerz;
@@ -329,6 +503,19 @@ function runSelfTests(){
   eq("Kleser D suma", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 88200);
   // D2: czas trwania = 2 ciepłe kolacje (meksyk + kolacjaSerw) -> 9h
   eq("Kleser D czas", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).czas, 9);
+
+  // Pokrycie opisów: każdy wybieralny klucz musi mieć wpis w OPISY
+  const has=(o,k)=>o&&o[k]!=null&&(typeof o[k]!=='object'||Object.keys(o[k]).length>0);
+  const cov=(name,bool)=>T.push({name,ok:!!bool,got:!!bool,exp:true});
+  ["I","II","III","IV"].forEach(k=>cov("opis boho.menu."+k, has(OPISY.boho.menu,k)));
+  ["I","II"].forEach(k=>cov("opis boho.napoje."+k, has(OPISY.boho.napoje,k)));
+  ["srodziemnomorski","street","swojski"].forEach(k=>cov("opis boho.bufet."+k, has(OPISY.boho.bufet,k)));
+  ["I","II","III"].forEach(k=>cov("opis kleser.talerz."+k, has(OPISY.kleser.obiadTalerz,k)));
+  cov("opis kleser.patera.I", has(OPISY.kleser.obiadPatera,"I"));
+  ["I","II","III"].forEach(k=>cov("opis kleser.napoje."+k, has(OPISY.kleser.napoje,k)));
+  cov("opis kleser.korkowe", has(OPISY.kleser,"korkowe"));
+  ["bufetZimno","meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska","slodkiStol"].forEach(k=>cov("opis kleser.dodatki."+k, has(OPISY.kleser.dodatki,k)));
+  ["I","II","III"].forEach(k=>{ cov("opis kolacjaSerw."+k, has(OPISY.kleser.dodatki.kolacjaSerw,k)); cov("opis cieplaMiska."+k, has(OPISY.kleser.dodatki.cieplaMiska,k)); });
 
   const fail=T.filter(t=>!t.ok);
   console.log("%cSELF-TEST: "+(fail.length?fail.length+" FAIL":"WSZYSTKIE OK"), "font-weight:bold;color:"+(fail.length?"#c0392b":"#27ae60"));
