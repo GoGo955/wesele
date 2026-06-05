@@ -72,6 +72,7 @@ h3.sek{margin:10px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing
 <section id="cols" class="wrap"></section>
 <section id="szczegolySek" class="wrap"></section>
 <section id="cechy" class="wrap"></section>
+<section id="reszta" class="wrap"></section>
 
 <script>
 const OFERTY = {
@@ -90,27 +91,75 @@ const OFERTY = {
   },
   kleser: {
     nazwa:"Przystanek Południe (Kleser)",
-    obiadTalerz:{I:240,II:290,III:330},
-    obiadPatera:{I:350},
-    napoje:{I:90,II:125,III:180},
-    korkowe:40,
+    // wszystkie ceny zł/os jako [2026, 2027, 2028]
+    obiadTalerz:{I:[180,210,240],II:[220,250,290],III:[250,290,330]},
+    obiadPatera:{I:[250,290,330]},
+    napoje:{I:[70,80,90],II:[105,115,125],III:[140,160,180]},
+    korkowe:[30,35,40],
     dodatki:{
-      bufetZimno:90, meksyk:80, liveCooking:70,
-      pizza:60, burgery:65, bliskiWschod:70,
-      kolacjaSerw:{I:55,II:65,III:75},
-      cieplaMiska:{I:50,II:55,III:60},
-      slodkiStol:{szt3:50, szt5:65}
+      bufetZimno:[70,80,90], meksyk:[60,70,80], liveCooking:[60,65,70],
+      pizza:[50,55,60], burgery:[55,60,65], bliskiWschod:[60,65,70],
+      kolacjaSerw:{I:[45,50,55],II:[55,60,65],III:[65,70,75]},
+      cieplaMiska:{I:[50,50,50],II:[55,55,55],III:[60,60,60]}, // stałe rocznikiem
+      slodkiStol:{szt3:[40,45,50], szt5:[55,60,65]}
     },
-    minLog:{ // próg kwotowy + min osób; poniedziałek = założenie (jak wt-czw)
-      pon:{os:50,kwota:30000}, wt:{os:50,kwota:30000}, sr:{os:50,kwota:30000}, czw:{os:50,kwota:30000},
-      pt:{os:80,kwota:65000}, sob:{os:90,kwota:75000}, nd:{os:70,kwota:50000}
+    // minimalny budżet przyjęcia [2026,2027,2028] wg sezonu (hi=VI–IX, lo=X–V) i dnia. Źródło: mail PP.
+    minBudget:{
+      hi:{ pon:[15000,20000,30000], wt:[15000,20000,30000], sr:[15000,20000,30000], czw:[15000,20000,30000],
+           pt:[35000,45000,65000], sob:[45000,60000,75000], nd:[25000,30000,40000] },
+      lo:{ pon:[10000,15000,20000], wt:[10000,15000,20000], sr:[10000,15000,20000], czw:[10000,15000,20000],
+           pt:[16000,35000,50000], sob:[25000,45000,60000], nd:[10000,20000,30000] }
     },
+    minOs:{pon:50,wt:50,sr:50,czw:50,pt:80,sob:90,nd:70}, // min gości/dzień (rok-niezależne)
+    laFlor:{ BASIC:{stolik:150,pm:1500}, STANDARD1:{stolik:220,pm:1500}, STANDARD2:{stolik:320,pm:2500}, PREMIUM:{stolik:350,pm:3500} },
+    laFlorDojazd:150,
     cieplaKolacjaKeys:["meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska"],
     dzieci:{gratisDo:3, znizkaDo:10, znizka:0.5}
   }
 };
 const DNI=[["pon","Poniedziałek"],["wt","Wtorek"],["sr","Środa"],["czw","Czwartek"],["pt","Piątek"],["sob","Sobota"],["nd","Niedziela"]];
+const LATA=["2026","2027","2028"]; // index 0..2
+const SEZONY=[["hi","Czerwiec–Wrzesień"],["lo","Październik–Maj"]];
 const fmtPLN = n => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN',maximumFractionDigits:0}).format(Math.round(n));
+
+// Pozostałe koszty wesela poza salą/cateringiem (niezależne od sali).
+// Źródło: reports/koszty-wesela-slask-2027.md (Śląsk ~2027, 60–70 os.).
+// b=[min,max] budżetowo, p=[min,max] premium. opt:true → domyślnie odznaczone.
+const RESZTA = [
+  {k:"foto", n:"Fotograf", b:[4800,5900], p:[6800,9000]},
+  {k:"wideo", n:"Kamerzysta / wideo", b:[3600,5000], p:[6600,10000]},
+  {k:"muzyka", n:"Muzyka (DJ ↔ zespół)", b:[4500,5500], p:[10000,18000]},
+  {k:"dekorSali", n:"Dekoracje sali", b:[2300,4000], p:[8000,15000], uwaga:"PP: dokładny cennik La Flor (parsed)"},
+  {k:"bukiet", n:"Bukiet / wiązanka", b:[400,750], p:[800,1500]},
+  {k:"tort", n:"Tort", b:[700,1200], p:[1500,2500]},
+  {k:"slodkiStol", n:"Słodki stół", b:[1000,1800], p:[2500,4000], uwaga:"bywa w cenie cateringu — odznacz, by nie liczyć 2×"},
+  {k:"alkohol", n:"Alkohol własny", b:[2500,3500], p:[4500,6000], uwaga:"przy pakiecie napojów z sali — odznacz"},
+  {k:"atrakcje", n:"Atrakcje (fotobudka, dym, iskry…)", b:[1700,3400], p:[7000,13500]},
+  {k:"oprawaCer", n:"Oprawa muz. ceremonii", b:[600,1200], p:[2000,4000]},
+  {k:"suknia", n:"Suknia (z dodatkami)", b:[2500,4500], p:[7000,15000]},
+  {k:"garnitur", n:"Garnitur", b:[1500,3000], p:[5000,10000]},
+  {k:"obraczki", n:"Obrączki", b:[2000,3500], p:[5000,9000], uwaga:"złoto drożeje — górna granica to minimum"},
+  {k:"makijaz", n:"Makijaż i fryzura", b:[600,1000], p:[1200,2000]},
+  {k:"papeteria", n:"Papeteria / zaproszenia", b:[400,800], p:[1200,2500]},
+  {k:"ceremonia", n:"Ceremonia (USC / kościół)", b:[600,1700], p:[1700,3000]},
+  {k:"transport", n:"Transport", b:[600,1200], p:[3000,6000]},
+  {k:"noclegi", n:"Noclegi", b:[500,1500], p:[3000,6000]},
+  {k:"podzGoscie", n:"Podziękowania — goście", b:[300,700], p:[1000,2000]},
+  {k:"podzRodzice", n:"Podziękowania — rodzice", b:[300,600], p:[800,2000]},
+  {k:"zaiks", n:"ZAiKS + bufor", b:[1300,2300], p:[2100,4000]},
+  {k:"planner", n:"Wedding planner", b:[0,0], p:[8000,22000], opt:true, uwaga:"wariant budżetowy zwykle 0 zł (samodzielnie)"},
+  {k:"poprawiny", n:"Poprawiny", b:[1000,2500], p:[3000,6000], opt:true}
+];
+const aktualnyTier = () => (document.querySelector('input[name=resztaTier]:checked')||{}).value==="premium" ? "p" : "b";
+function liczReszta(){
+  const t=aktualnyTier(); let min=0,max=0;
+  RESZTA.forEach(c=>{
+    const el=document.getElementById('rk_'+c.k);
+    const inc = el ? el.checked : !c.opt;
+    if(inc){ min+=c[t][0]; max+=c[t][1]; }
+  });
+  return {min,max};
+}
 
 // Zawartość pakietów (źródło: parsed/*.md). Klucz menu/obiad = obiekt {danie:opis}; reszta = string.
 const BOHO_ZIMNY_BUFET = "Mięsa pieczone i regionalne wędliny • Pasztet wiejski z owocami suszonymi • Deska serów europejskich z owocową mostardą • Breitling z zielonego śledzia • Śledź matias z cebulką i musztardą francuską • Mini tarty z musem z łososia i koziego sera • Sałatka cezar z kurczakiem i bekonem • Sałatka grecka • Sałatka à la caprese z pesto • Pikle i marynowane warzywa • Papryczki nadziewane serem • Nachos z dipami • Masła smakowe z pieczywem na zakwasie";
@@ -213,6 +262,12 @@ const OPISY = {
         III:"Zupa pho z wołowiną • Ramen tantanmen • Bouillabaisse — francuska zupa rybna z owocami morza"
       },
       slodkiStol:"Sernik baskijski, ciasto czekoladowe na migdałach, makaroniki, mini bezy Pavlova, crème brûlée, tiramisu, panna cotta, cannoli (3 lub 5 sztuk wg wyboru). Wypiek na miejscu przez Jolę Kleser."
+    },
+    laFlor:{
+      BASIC:"Stoły gości: zioła w doniczkach + lampka LED w złotym okuciu, numerek akrylowy, świece pływające. Stół PM: kompozycja kwiatowa lub punktowe wazoniki, świece, szklane tuby z woskiem, zwiewny materiał. (150 zł/stolik + 1500 zł stół PM + 150 zł dojazd)",
+      STANDARD1:"Stoły gości: zioła + 2 wazoniki sezonowych kwiatów, numerek, świece. Stół PM jak BASIC. (220 zł/stolik + 1500 zł stół PM + 150 zł dojazd)",
+      STANDARD2:"Stoły gości: punktowe wazoniki z kwiatami, numerek, świece. Stół PM: kompozycja typu łączka + kwiatowa instalacja i zwiewne materiały nad stołem. (od 320 zł/stolik + od 2500 zł stół PM + 150 zł dojazd)",
+      PREMIUM:"Stoły gości: kompozycja kwiatowa, numerek, świece. Stół PM: pełna dekoracja + drapowany materiał lub panel z napisem za stołem PM. (od 350 zł/stolik + od 3500 zł stół PM + 150 zł dojazd)"
     }
   }
 };
@@ -239,18 +294,19 @@ function szczegolyBoho(ob){
   return h;
 }
 function szczegolyKleser(ok){
-  const O=OPISY.kleser, P=OFERTY.kleser, D=O.dodatki;
-  const zrCena = ok.styl==="patera" ? P.obiadPatera[ok.pakiet] : P.obiadTalerz[ok.pakiet];
+  const O=OPISY.kleser, P=OFERTY.kleser, D=O.dodatki, yr=ok.rok;
+  const zrCena = (ok.styl==="patera" ? P.obiadPatera[ok.pakiet] : P.obiadTalerz[ok.pakiet])[yr];
   const zrOpis = ok.styl==="patera" ? O.obiadPatera[ok.pakiet] : O.obiadTalerz[ok.pakiet];
   let h = blokOpis("Obiad ("+(ok.styl==="patera"?"patera":"talerz")+") — Pakiet "+ok.pakiet, zrCena+" zł/os", zrOpis, true);
-  if(ok.korkowe) h += blokOpis("Korkowe", P.korkowe+" zł/os", O.korkowe, true);
-  else h += blokOpis("Napoje — Pakiet "+ok.napoje, P.napoje[ok.napoje]+" zł/os", O.napoje[ok.napoje], true);
+  if(ok.korkowe) h += blokOpis("Korkowe", P.korkowe[yr]+" zł/os", O.korkowe, true);
+  else h += blokOpis("Napoje — Pakiet "+ok.napoje, P.napoje[ok.napoje][yr]+" zł/os", O.napoje[ok.napoje], true);
   const d=ok.dodatki||{};
   const flat={bufetZimno:["Bufet na zimno",P.dodatki.bufetZimno],meksyk:["Ciepła kolacja Meksyk",P.dodatki.meksyk],liveCooking:["Live cooking",P.dodatki.liveCooking],pizza:["Pizza w ogrodzie",P.dodatki.pizza],burgery:["Burgery w ogrodzie",P.dodatki.burgery],bliskiWschod:["Bliski Wschód",P.dodatki.bliskiWschod]};
-  Object.keys(flat).forEach(k=>{ if(d[k]) h += blokOpis(flat[k][0], flat[k][1]+" zł/os", D[k], true); });
-  if(d.kolacjaSerw) h += blokOpis("Kolacja serwowana — Opcja "+d.kolacjaSerw, P.dodatki.kolacjaSerw[d.kolacjaSerw]+" zł/os", D.kolacjaSerw[d.kolacjaSerw], true);
-  if(d.cieplaMiska) h += blokOpis("Ciepła miska — Opcja "+d.cieplaMiska, P.dodatki.cieplaMiska[d.cieplaMiska]+" zł/os", D.cieplaMiska[d.cieplaMiska], true);
-  if(d.slodkiStol)  h += blokOpis("Słodki stół ("+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+")", P.dodatki.slodkiStol[d.slodkiStol]+" zł/os", D.slodkiStol, true);
+  Object.keys(flat).forEach(k=>{ if(d[k]) h += blokOpis(flat[k][0], flat[k][1][yr]+" zł/os", D[k], true); });
+  if(d.kolacjaSerw) h += blokOpis("Kolacja serwowana — Opcja "+d.kolacjaSerw, P.dodatki.kolacjaSerw[d.kolacjaSerw][yr]+" zł/os", D.kolacjaSerw[d.kolacjaSerw], true);
+  if(d.cieplaMiska) h += blokOpis("Ciepła miska — Opcja "+d.cieplaMiska, P.dodatki.cieplaMiska[d.cieplaMiska][yr]+" zł/os", D.cieplaMiska[d.cieplaMiska], true);
+  if(d.slodkiStol)  h += blokOpis("Słodki stół ("+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+")", P.dodatki.slodkiStol[d.slodkiStol][yr]+" zł/os", D.slodkiStol, true);
+  if(ok.laflor && ok.laflor!=='brak') h += blokOpis("Dekoracje La Flor — "+ok.laflor, "poza progiem min.", O.laFlor[ok.laflor], true);
   return h;
 }
 let pokazSzczegoly=false;
@@ -285,29 +341,43 @@ function liczBoho(w){
   return {rozbicie:r, suma, alerty, czas:12, info:"Czas: 12 h w cenie. Rezerwacja 8000 zł wliczana w cenę."};
 }
 
+function liczLaFlor(pkg, stoliki){
+  const p=OFERTY.kleser.laFlor[pkg]; if(!p) return 0;
+  return stoliki*p.stolik + p.pm + OFERTY.kleser.laFlorDojazd;
+}
 function liczKleser(w){
-  const O=OFERTY.kleser;
+  const O=OFERTY.kleser, yr=w.rok;
   const billable = w.dorosli + O.dzieci.znizka * (w.dzieci50||0);
   const r=[];
-  const obiadCena = (w.styl==="patera") ? O.obiadPatera[w.pakiet] : O.obiadTalerz[w.pakiet];
+  const obiadCena = ((w.styl==="patera") ? O.obiadPatera[w.pakiet] : O.obiadTalerz[w.pakiet])[yr];
   const stylTxt = (w.styl==="patera") ? "patera" : "talerz";
   r.push({k:"Obiad ("+stylTxt+") Pakiet "+w.pakiet+" ("+obiadCena+" zł/os)", v:billable*obiadCena});
 
-  if(w.korkowe){ r.push({k:"Korkowe (40 zł/os)", v:billable*O.korkowe}); }
-  else { r.push({k:"Napoje Pakiet "+w.napoje+" ("+O.napoje[w.napoje]+" zł/os)", v:billable*O.napoje[w.napoje]}); }
+  if(w.korkowe){ const kk=O.korkowe[yr]; r.push({k:"Korkowe ("+kk+" zł/os)", v:billable*kk}); }
+  else { const np=O.napoje[w.napoje][yr]; r.push({k:"Napoje Pakiet "+w.napoje+" ("+np+" zł/os)", v:billable*np}); }
 
   const d=w.dodatki||{}; const D=O.dodatki;
   const flat={bufetZimno:"Bufet na zimno",meksyk:"Ciepła kolacja Meksyk",liveCooking:"Live cooking",pizza:"Pizza w ogrodzie",burgery:"Burgery w ogrodzie",bliskiWschod:"Bliski Wschód"};
-  Object.keys(flat).forEach(key=>{ if(d[key]) r.push({k:flat[key]+" ("+D[key]+" zł/os)", v:billable*D[key]}); });
-  if(d.kolacjaSerw) r.push({k:"Kolacja serwowana Opcja "+d.kolacjaSerw+" ("+D.kolacjaSerw[d.kolacjaSerw]+" zł/os)", v:billable*D.kolacjaSerw[d.kolacjaSerw]});
-  if(d.cieplaMiska) r.push({k:"Ciepła miska Opcja "+d.cieplaMiska+" ("+D.cieplaMiska[d.cieplaMiska]+" zł/os)", v:billable*D.cieplaMiska[d.cieplaMiska]});
-  if(d.slodkiStol)  r.push({k:"Słodki stół "+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+" ("+D.slodkiStol[d.slodkiStol]+" zł/os)", v:billable*D.slodkiStol[d.slodkiStol]});
+  Object.keys(flat).forEach(key=>{ if(d[key]){ const c=D[key][yr]; r.push({k:flat[key]+" ("+c+" zł/os)", v:billable*c}); } });
+  if(d.kolacjaSerw){ const c=D.kolacjaSerw[d.kolacjaSerw][yr]; r.push({k:"Kolacja serwowana Opcja "+d.kolacjaSerw+" ("+c+" zł/os)", v:billable*c}); }
+  if(d.cieplaMiska){ const c=D.cieplaMiska[d.cieplaMiska][yr]; r.push({k:"Ciepła miska Opcja "+d.cieplaMiska+" ("+c+" zł/os)", v:billable*c}); }
+  if(d.slodkiStol){ const c=D.slodkiStol[d.slodkiStol][yr]; r.push({k:"Słodki stół "+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+" ("+c+" zł/os)", v:billable*c}); }
 
   const computed = r.reduce((s,x)=>s+x.v,0);
-  const ml=O.minLog[w.dzien];
+  const mb=O.minBudget[w.sezon][w.dzien][yr];
   let suma=computed; const alerty=[];
-  if(computed < ml.kwota){ suma=ml.kwota; r.push({k:"Próg minimum logistycznego ("+w.dzien+")", v:ml.kwota-computed}); alerty.push("Suma poniżej progu — naliczono minimum logistyczne "+fmtPLN(ml.kwota)+"."); }
-  if(w.dorosli < ml.os) alerty.push("Goście poniżej minimum ("+ml.os+" os) dla tego dnia.");
+  if(computed < mb){ suma=mb; r.push({k:"Próg min. budżetu ("+LATA[yr]+", "+(w.sezon==="hi"?"VI–IX":"X–V")+", "+w.dzien+")", v:mb-computed}); alerty.push("Catering poniżej progu — naliczono minimalny budżet "+fmtPLN(mb)+"."); }
+  const mos=O.minOs[w.dzien];
+  if(w.dorosli < mos) alerty.push("Goście poniżej minimum ("+mos+" os) dla tego dnia.");
+
+  // La Flor — dekoracje doliczane poza progiem minimalnym
+  if(w.laflor && w.laflor!=='brak'){
+    const ciala=(w.dorosli||0)+(w.dzieci50||0)+(w.dzieciGratis||0);
+    const stoliki=Math.max(1, Math.ceil(ciala/(w.osStolik||10)));
+    const dekor=liczLaFlor(w.laflor, stoliki);
+    r.push({k:"Dekoracje La Flor "+w.laflor+" ("+stoliki+" stolików + stół PM + dojazd)", v:dekor});
+    suma+=dekor;
+  }
 
   // czas trwania z liczby ciepłych kolacji
   let ck=0;
@@ -315,7 +385,35 @@ function liczKleser(w){
   if(d.kolacjaSerw) ck++; if(d.cieplaMiska) ck++;
   ck=Math.min(ck,3);
   const czas = {0:5,1:6,2:9,3:12}[ck];
-  return {rozbicie:r, suma, alerty, czas, info:"Czas zależny od ciepłych kolacji: "+ck+" → "+czas+" h."};
+  return {rozbicie:r, suma, alerty, czas, info:"Rok "+LATA[yr]+". Czas zależny od ciepłych kolacji: "+ck+" → "+czas+" h."};
+}
+
+function resztaSekcjaHTML(){
+  const rows = RESZTA.map(c=>`<label class="chk"><input type="checkbox" id="rk_${c.k}" ${c.opt?'':'checked'}> ${c.n} <span id="rkv_${c.k}" style="color:var(--muted);font-variant-numeric:tabular-nums"></span>${c.uwaga?`<span style="color:var(--muted);font-size:11px;flex-basis:100%"> · ${c.uwaga}</span>`:''}</label>`).join("");
+  return `<div class="panel" style="position:static">
+    <div class="row" style="justify-content:space-between;align-items:center;gap:12px">
+      <h3 class="sek" style="margin:0">Pozostałe koszty wesela <span style="text-transform:none;font-weight:400">(poza salą i cateringiem)</span></h3>
+      <span class="chk" style="gap:12px">Wariant:
+        <label class="chk"><input type="radio" name="resztaTier" value="budzet" checked> budżetowo</label>
+        <label class="chk"><input type="radio" name="resztaTier" value="premium"> premium</label>
+      </span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:7px 18px;margin-top:12px">${rows}</div>
+    <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:11px;display:flex;justify-content:space-between;font-weight:650;font-size:15px">
+      <span>Pozostałe koszty razem</span><span id="reszta_sum" style="font-variant-numeric:tabular-nums">—</span>
+    </div>
+    <p class="sub" style="font-size:12px;margin-top:8px">Szacunki: Śląsk, ~2027 r., 60–70 os. Źródło: <code>reports/koszty-wesela-slask-2027.md</code>. Doliczane do obu sal jednakowo (koszt niezależny od wyboru sali). Część pozycji (słodki stół, alkohol, dekoracje) bywa już w ofercie sali — odznacz, by nie liczyć podwójnie. Foto/wideo/muzyka = realne cenniki 2027; reszta = ceny 2025 +13%.</p>
+  </div>`;
+}
+function aktualizujReszte(){
+  const t=aktualnyTier();
+  RESZTA.forEach(c=>{
+    const sp=document.getElementById('rkv_'+c.k); if(!sp) return;
+    const [a,b]=c[t]; sp.textContent = a===b ? fmtPLN(a) : (fmtPLN(a)+"–"+fmtPLN(b));
+  });
+  const R=liczReszta();
+  const s=document.getElementById('reszta_sum'); if(s) s.textContent = fmtPLN(R.min)+" – "+fmtPLN(R.max);
+  return R;
 }
 
 function panelHTML(){
@@ -325,7 +423,9 @@ function panelHTML(){
     <div class="fld"><label>Dzieci 3–10 (50%)*</label><input type="number" id="dzieci50" min="0" value="0"></div>
     <div class="fld"><label>Dzieci małe (gratis)*</label><input type="number" id="dzieciGratis" min="0" value="0"></div>
     <div class="fld"><label>Dzień tygodnia</label><select id="dzien">${dni}</select></div>
-    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku różnią się między salami (Boho 3–10/&lt;2, Kleser 4–10/&lt;3)</span></div>
+    <div class="fld"><label>Rok (PP)</label><select id="rok">${LATA.map((y,i)=>`<option value="${i}">${y}</option>`).join("")}</select></div>
+    <div class="fld"><label>Sezon (PP)</label><select id="sezon">${SEZONY.map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>
+    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku: Boho 3–10/&lt;2, Kleser 4–10/&lt;3. Ceny PP zależą od roku/sezonu; Boho = oferta 2027 (stała).</span></div>
   </div></div>`;
 }
 function stanWspolny(){
@@ -333,7 +433,9 @@ function stanWspolny(){
     dorosli:+document.getElementById('dorosli').value||0,
     dzieci50:+document.getElementById('dzieci50').value||0,
     dzieciGratis:+document.getElementById('dzieciGratis').value||0,
-    dzien:document.getElementById('dzien').value
+    dzien:document.getElementById('dzien').value,
+    rok:+document.getElementById('rok').value||0,
+    sezon:document.getElementById('sezon').value
   };
 }
 
@@ -366,31 +468,38 @@ function selBoho(){
 }
 function selKleser(){
   return `<div class="opts">
-    <h3 class="sek">Kleser — wybór</h3>
+    <h3 class="sek">Kleser — wybór <span style="text-transform:none;font-weight:400">(ceny per rok — patrz rozbicie)</span></h3>
     <div class="grp">
       <span class="chk">Obiad:
         <select id="k_styl"><option value="talerz">na talerzu</option><option value="patera">na paterze</option></select>
       </span>
       <span class="chk">Pakiet: <select id="k_pakiet"></select></span>
       <span class="chk">Napoje:
-        <select id="k_napoje"><option value="I">I (90)</option><option value="II">II (125)</option><option value="III">III (180)</option></select>
+        <select id="k_napoje"><option value="I">Pakiet I</option><option value="II">Pakiet II</option><option value="III">Pakiet III</option></select>
       </span>
-      <label class="chk"><input type="checkbox" id="k_korkowe"> Korkowe (40) zamiast napojów</label>
+      <label class="chk"><input type="checkbox" id="k_korkowe"> Korkowe zamiast napojów</label>
     </div>
     <div class="grp">
-      <label class="chk"><input type="checkbox" id="k_bufetZimno"> Bufet zimno (90)</label>
-      <label class="chk"><input type="checkbox" id="k_meksyk"> Ciepła kolacja Meksyk (80)</label>
-      <label class="chk"><input type="checkbox" id="k_liveCooking"> Live cooking (70)</label>
+      <label class="chk"><input type="checkbox" id="k_bufetZimno"> Bufet zimno</label>
+      <label class="chk"><input type="checkbox" id="k_meksyk"> Ciepła kolacja Meksyk</label>
+      <label class="chk"><input type="checkbox" id="k_liveCooking"> Live cooking</label>
     </div>
     <div class="grp">
-      <label class="chk"><input type="checkbox" id="k_pizza"> Pizza (60)</label>
-      <label class="chk"><input type="checkbox" id="k_burgery"> Burgery (65)</label>
-      <label class="chk"><input type="checkbox" id="k_bliskiWschod"> Bliski Wschód (70)</label>
+      <label class="chk"><input type="checkbox" id="k_pizza"> Pizza</label>
+      <label class="chk"><input type="checkbox" id="k_burgery"> Burgery</label>
+      <label class="chk"><input type="checkbox" id="k_bliskiWschod"> Bliski Wschód</label>
     </div>
     <div class="grp">
-      <span class="chk">Kolacja serw.: <select id="k_kolacjaSerw"><option value="">— brak —</option><option value="I">O1 (55)</option><option value="II">O2 (65)</option><option value="III">O3 (75)</option></select></span>
-      <span class="chk">Ciepła miska: <select id="k_cieplaMiska"><option value="">— brak —</option><option value="I">O1 (50)</option><option value="II">O2 (55)</option><option value="III">O3 (60)</option></select></span>
-      <span class="chk">Słodki stół: <select id="k_slodkiStol"><option value="">— brak —</option><option value="szt3">3 szt (50)</option><option value="szt5">5 szt (65)</option></select></span>
+      <span class="chk">Kolacja serw.: <select id="k_kolacjaSerw"><option value="">— brak —</option><option value="I">Opcja 1</option><option value="II">Opcja 2</option><option value="III">Opcja 3</option></select></span>
+      <span class="chk">Ciepła miska: <select id="k_cieplaMiska"><option value="">— brak —</option><option value="I">Opcja 1</option><option value="II">Opcja 2</option><option value="III">Opcja 3</option></select></span>
+      <span class="chk">Słodki stół: <select id="k_slodkiStol"><option value="">— brak —</option><option value="szt3">3 szt</option><option value="szt5">5 szt</option></select></span>
+    </div>
+    <div class="grp">
+      <span class="chk">Dekoracje La Flor:
+        <select id="k_laflor"><option value="brak">— brak —</option><option value="BASIC">BASIC</option><option value="STANDARD1">STANDARD 1</option><option value="STANDARD2">STANDARD 2</option><option value="PREMIUM">PREMIUM</option></select>
+      </span>
+      <label class="chk">os./stolik <input type="number" id="k_osStolik" min="1" value="10" style="width:56px"></label>
+      <span class="chk" style="color:var(--muted);font-size:11px">La Flor poza progiem min.; jeśli wybrane — odznacz „Dekoracje sali" w pozostałych kosztach</span>
     </div>
   </div>`;
 }
@@ -403,6 +512,7 @@ function odczytBoho(c){
 function odczytKleser(c){
   const v=id=>document.getElementById(id).value, ch=id=>document.getElementById(id).checked;
   return {...c, styl:v('k_styl'), pakiet:v('k_pakiet')||"I", napoje:v('k_napoje'), korkowe:ch('k_korkowe'),
+    laflor:v('k_laflor')||'brak', osStolik:+document.getElementById('k_osStolik').value||10,
     dodatki:{ bufetZimno:ch('k_bufetZimno'), meksyk:ch('k_meksyk'), liveCooking:ch('k_liveCooking'),
       pizza:ch('k_pizza'), burgery:ch('k_burgery'), bliskiWschod:ch('k_bliskiWschod'),
       kolacjaSerw:v('k_kolacjaSerw')||null, cieplaMiska:v('k_cieplaMiska')||null, slodkiStol:v('k_slodkiStol')||null }};
@@ -411,7 +521,7 @@ function odczytKleser(c){
 function kartaHTML(id, tytul, sel, kolor){
   return `<div class="card" id="card_${id}" style="border-top:3px solid ${kolor}">
     <h2>${tytul}</h2>
-    <div><div class="total" id="${id}_total">—</div><div class="per" id="${id}_per"></div></div>
+    <div><div class="total" id="${id}_total">—</div><div class="per" id="${id}_per"></div><div class="per" id="${id}_razem" style="margin-top:5px;font-weight:600;color:var(--ink)"></div></div>
     <span class="badge" id="${id}_czas"></span>
     <div id="${id}_alerty"></div>
     ${sel}
@@ -433,6 +543,9 @@ function render(){
   const wk=liczKleser(ok);
   wynikDoUI('boho', wb);
   wynikDoUI('kleser', wk);
+  const R=aktualizujReszte();
+  const razem=(id,suma)=>{ const el=document.getElementById(id+'_razem'); if(el) el.textContent = "+ reszta wesela → razem "+fmtPLN(suma+R.min)+" – "+fmtPLN(suma+R.max); };
+  razem('boho', wb.suma); razem('kleser', wk.suma);
   const cb=document.getElementById('card_boho'), ck=document.getElementById('card_kleser');
   cb.classList.toggle('win', wb.suma<=wk.suma);
   ck.classList.toggle('win', wk.suma<wb.suma);
@@ -455,18 +568,24 @@ document.getElementById('panel').innerHTML = panelHTML();
 document.getElementById('cols').innerHTML =
   `<div class="cols">${kartaHTML('boho',OFERTY.boho.nazwa,selBoho(),'var(--boho)')}${kartaHTML('kleser','Przystanek Południe (Kleser)',selKleser(),'var(--kleser)')}</div>
    <div class="diff" id="diff"></div>`;
+document.getElementById('reszta').innerHTML = resztaSekcjaHTML();
 document.getElementById('szczegolySek').innerHTML =
   `<button id="btnSzcz" class="btn-szcz" type="button">Pokaż szczegóły wybranych pakietów</button>
    <div id="szczBox"></div>`;
 document.getElementById('btnSzcz').addEventListener('click',()=>{ pokazSzczegoly=!pokazSzczegoly; render(); });
 function odswiezPakiety(){
   const styl=document.getElementById('k_styl').value;
+  const yr=+document.getElementById('rok').value||0;
   const zr = styl==="patera" ? OFERTY.kleser.obiadPatera : OFERTY.kleser.obiadTalerz;
-  document.getElementById('k_pakiet').innerHTML = Object.keys(zr).map(k=>`<option value="${k}">${k} (${zr[k]} zł)</option>`).join("");
+  const sel=document.getElementById('k_pakiet'), prev=sel.value;
+  sel.innerHTML = Object.keys(zr).map(k=>`<option value="${k}">${k} (${zr[k][yr]} zł)</option>`).join("");
+  if([...sel.options].some(o=>o.value===prev)) sel.value=prev;
 }
-odswiezPakiety();
 document.getElementById('dzien').value="sob";
+document.getElementById('rok').value="1"; // domyślnie 2027
+odswiezPakiety();
 document.getElementById('k_styl').addEventListener('change',()=>{odswiezPakiety();render();});
+document.getElementById('rok').addEventListener('change',()=>{odswiezPakiety();render();});
 document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',render));
 render();
 
@@ -476,9 +595,9 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Lokalizacja</td><td>Dąbrowa Górnicza, nad jez. Pogoria I</td><td>Mysłowice, ul. Murckowska 1</td></tr>
 <tr><td>Pojemność sali</td><td>do 200 osób (sala 450 m²)</td><td>do 150 osób (+ ogród zimowy)</td></tr>
 <tr><td>Czas trwania</td><td>12 h w cenie; dod. godz. 1500 zł (do 5:00)</td><td>5–12 h zależnie od liczby ciepłych kolacji</td></tr>
-<tr><td>Model minimum</td><td>Min. gości/dzień; dopłata 250 zł/brakującą os</td><td>Minimum logistyczne = próg kwotowy/dzień (30–75 tys.)</td></tr>
-<tr><td>Min. (sob / pt / nd / dni robocze)</td><td>90 / 70 / 70 / 50 os</td><td>90 / 80 / 70 / 50 os (próg 75 / 65 / 50 / 30 tys.)</td></tr>
-<tr><td>Napoje</td><td>95 lub 155 zł/os (korkowe nie obowiązuje)</td><td>90 / 125 / 180 zł/os; korkowe 40 zł/os</td></tr>
+<tr><td>Model minimum</td><td>Min. gości/dzień; dopłata 250 zł/brakującą os</td><td>Próg min. budżetu zależny od roku × sezonu × dnia (10–75 tys.)</td></tr>
+<tr><td>Min. (sob / pt / nd / dni robocze)</td><td>90 / 70 / 70 / 50 os</td><td>min. osób 90 / 80 / 70 / 50; próg budżetu per rok×sezon (2028 VI–IX: 75 / 65 / 40 / 30 tys.)</td></tr>
+<tr><td>Napoje</td><td>95 lub 155 zł/os (korkowe nie obowiązuje)</td><td>Pakiet I/II/III — ceny per rok (2028: 90 / 125 / 180); korkowe per rok (2028: 40)</td></tr>
 <tr><td>Jedzenie</td><td>Menu all-in I–IV (450–570 zł/os)</td><td>Obiad talerz/patera + dokładane bufety i kolacje</td></tr>
 <tr><td>Nocleg</td><td>66 miejsc; apartament PM gratis; 600/1200 zł</td><td>brak w ofercie</td></tr>
 <tr><td>Ceremonia</td><td>Plener na wodzie/wśród drzew — 3500 zł</td><td>Drewniane tarasy (w cenie miejsca)</td></tr>
@@ -486,7 +605,7 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Opłata rezerwacyjna</td><td>8000 zł (wliczana w cenę)</td><td>brak w ofercie</td></tr>
 <tr><td>Kontakt</td><td>biuro@bohopogoria.pl · +48 507 807 478</td><td>kontakt@pracowniasmaku.com.pl · +48 537 187 805</td></tr>
 </tbody></table>
-<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne na podstawie ofert (Boho 2027, Kleser 2028) i maila o minimum logistycznym Kleser. Poniedziałek Kleser przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
+<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho 2027 — ceny stałe. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
 
 function runSelfTests(){
   const T=[];
@@ -496,13 +615,26 @@ function runSelfTests(){
   eq("Boho A suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 54500);
   // B: Boho sob, 70 dorosłych, Menu I, Napoje I -> 31500+6650+5000(20*250)=43150
   eq("Boho B dopłata", liczBoho({dorosli:70,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 43150);
-  // C: Kleser sob, 100 dorosłych, talerz I, napoje I, bufetZimno -> computed 42000 < próg 75000 -> 75000
-  eq("Kleser C próg", liczKleser({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",styl:"talerz",pakiet:"I",napoje:"I",korkowe:false,dodatki:{bufetZimno:true}}).suma, 75000);
-  // D: Kleser sob, 120 dorosłych, talerz III(330), napoje III(180), bufetZimno90, meksyk80, kolacjaSerw I(55)
-  //    = 120*(330+180+90+80+55)=120*735=88200 > próg -> 88200
-  eq("Kleser D suma", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 88200);
-  // D2: czas trwania = 2 ciepłe kolacje (meksyk + kolacjaSerw) -> 9h
-  eq("Kleser D czas", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).czas, 9);
+  // C: Kleser 2028 hi sob, 100, talerz I(240), napoje I(90), bufetZimno(90) -> 100*420=42000 < próg 75000 -> 75000
+  eq("Kleser C próg", liczKleser({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"I",napoje:"I",korkowe:false,dodatki:{bufetZimno:true}}).suma, 75000);
+  // D: Kleser 2028 hi sob, 120, talerz III(330), napoje III(180), bufetZimno(90), meksyk(80), kolacjaSerw I(55) = 120*735=88200 > próg
+  eq("Kleser D suma", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 88200);
+  // D2: czas = 2 ciepłe kolacje (meksyk + kolacjaSerw) -> 9h
+  eq("Kleser D czas", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).czas, 9);
+
+  // F: ceny per rok i patera
+  eq("PP talerz III 2026", OFERTY.kleser.obiadTalerz.III[0], 250);
+  eq("PP patera I 2028", OFERTY.kleser.obiadPatera.I[2], 330);
+  // G: 2026 hi sob, 100, talerz I(180), napoje I(70), bufetZimno(70)=32000 < próg 45000 -> 45000
+  eq("Kleser 2026 próg", liczKleser({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:0,sezon:"hi",styl:"talerz",pakiet:"I",napoje:"I",korkowe:false,dodatki:{bufetZimno:true}}).suma, 45000);
+  // H: La Flor BASIC, 10 stolików = 10*150+1500+150 = 3150
+  eq("La Flor BASIC×10", liczLaFlor("BASIC",10), 3150);
+  // I: D + La Flor BASIC (120 ciał /10 = 12 stolików -> 12*150+1500+150=3450) -> 88200+3450=91650
+  eq("Kleser D + La Flor", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,laflor:"BASIC",osStolik:10,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 91650);
+
+  // E: Reszta wesela, wariant budżetowy domyślny (bez plannera i poprawin)
+  eq("Reszta budżet min", liczReszta().min, 32700);
+  eq("Reszta budżet max", liczReszta().max, 53050);
 
   // Pokrycie opisów: każdy wybieralny klucz musi mieć wpis w OPISY
   const has=(o,k)=>o&&o[k]!=null&&(typeof o[k]!=='object'||Object.keys(o[k]).length>0);
