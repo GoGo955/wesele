@@ -4,50 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Porównanie ofert weselnych — Boho vs Kleser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..650;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // ustaw motyw przed renderem (bez mignięcia)
+  (function(){
+    var t=localStorage.getItem('motyw');
+    if(!t) t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    document.documentElement.setAttribute('data-theme',t);
+  })();
+</script>
 <style>
 :root{
-  --bg:#fafafa; --card:#fff; --ink:#1c1c1e; --muted:#6b7280;
-  --line:#e7e7e9; --accent:#b08968; --accent2:#7c9082;
-  --win:#e8f3ec; --winline:#7c9082; --radius:14px; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
-  --boho:#b08968; --kleser:#7c9082;
+  --bg:#f6f3ee; --card:#fffdfb; --ink:#23201c; --muted:#857c70;
+  --line:#e9e3d9; --accent:#a9764f; --accent2:#6f8576;
+  --win:#e9f2ea; --winline:#6f8576; --radius:16px;
+  --shadow:0 1px 2px rgba(60,45,30,.05),0 10px 30px -8px rgba(60,45,30,.10);
+  --boho:#a9764f; --kleser:#6f8576;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Hanken Grotesk",-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font:16px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:0 0 64px}
+body{
+  font:16px/1.55 var(--sans);color:var(--ink);padding:0 0 64px;
+  background:
+    radial-gradient(60% 50% at 12% -5%, rgba(169,118,79,.10), transparent 70%),
+    radial-gradient(55% 45% at 92% 0%, rgba(111,133,118,.12), transparent 70%),
+    var(--bg);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-h1{font-size:26px;font-weight:650;letter-spacing:-.02em}
-.sub{color:var(--muted);margin-top:4px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:8px 0 22px;position:sticky;top:0;z-index:5}
+h1{font-family:var(--serif);font-size:38px;font-weight:560;letter-spacing:-.01em;line-height:1.05}
+.sub{color:var(--muted);margin-top:6px}
+.panel{background:rgba(255,253,251,.78);backdrop-filter:blur(12px) saturate(1.4);-webkit-backdrop-filter:blur(12px) saturate(1.4);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:8px 0 22px;position:sticky;top:0;z-index:5}
 .panel .row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end}
 .fld{display:flex;flex-direction:column;gap:4px}
 .fld label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
-.fld input,.fld select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;min-width:120px}
+.fld input,.fld select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);min-width:120px}
 .fld input[type=number]{width:96px}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:760px){.cols{grid-template-columns:1fr}.panel{position:static}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:14px}
-.card.win{border-color:var(--winline);box-shadow:0 0 0 2px var(--win),var(--shadow)}
-.card h2{font-size:18px}
-.card .total{font-size:34px;font-weight:700;letter-spacing:-.02em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(60,45,30,.05),0 22px 48px -14px rgba(60,45,30,.18)}
+.card.win{border-color:var(--winline);box-shadow:0 0 0 2px var(--win),var(--shadow);background:linear-gradient(180deg,rgba(111,133,118,.06),transparent 120px),var(--card)}
+.card.win::before{content:"✓ taniej";align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--winline);padding:3px 10px;border-radius:999px}
+.card h2{font-family:var(--serif);font-size:21px;font-weight:540;letter-spacing:-.01em}
+.card .total{font-family:var(--serif);font-size:42px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
 .card .per{color:var(--muted);font-size:14px}
 .opts{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .opts .grp{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 .chk{display:flex;align-items:center;gap:6px;font-size:14px}
-.chk select{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:7px}
-.chk input[type=number]{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:7px}
+.chk select{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink)}
+.chk input[type=number]{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink)}
 .brk{list-style:none;display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--line);padding-top:12px}
 .brk li{display:flex;justify-content:space-between;gap:12px;font-size:14px}
 .brk li span:last-child{font-variant-numeric:tabular-nums;color:var(--ink)}
-.badge{display:inline-block;font-size:12px;padding:3px 9px;border-radius:999px;background:#f1f1f3;color:var(--muted)}
-.alert{font-size:13px;background:#fff5e6;border:1px solid #f0d9a8;color:#8a5a00;padding:8px 10px;border-radius:9px}
-.diff{text-align:center;margin:6px 0 26px;font-size:15px;color:var(--muted)}
-.diff b{color:var(--ink)}
+.badge{display:inline-block;font-size:12px;padding:4px 11px;border-radius:999px;background:rgba(133,124,112,.10);color:var(--muted);font-weight:600;align-self:flex-start}
+.alert{font-size:13px;background:#fbf3e3;border:1px solid #ecd9ad;color:#8a5a00;padding:9px 12px;border-radius:10px}
+.diff{text-align:center;margin:10px 0 26px;font-size:15px;color:var(--muted)}
+.diff b{font-family:var(--serif);font-weight:560;color:var(--ink);font-variant-numeric:tabular-nums}
 table.cechy{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 table.cechy th,table.cechy td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
-table.cechy th{background:#f7f7f8;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+table.cechy th{background:#f0ebe2;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+table.cechy tbody tr:hover td{background:rgba(169,118,79,.04)}
 table.cechy td:first-child{font-weight:600;width:180px}
-h3.sek{margin:10px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-.btn-szcz{display:block;margin:0 auto 18px;font:inherit;font-weight:600;cursor:pointer;padding:11px 20px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow);color:var(--ink)}
-.btn-szcz:hover{border-color:var(--accent)}
+h3.sek{margin:10px 0 12px;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.btn-szcz{display:block;margin:0 auto 18px;font:inherit;font-weight:600;cursor:pointer;padding:11px 22px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow);color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
+.btn-szcz:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
 .szcz{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 26px}
 @media(max-width:760px){.szcz{grid-template-columns:1fr}}
 .szcz .col{display:flex;flex-direction:column;gap:12px}
@@ -60,12 +85,61 @@ h3.sek{margin:10px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing
 .op-course .lab{color:var(--accent);font-weight:600}
 .op-pkg.kl .op-course .lab{color:var(--accent2)}
 .op-empty{color:var(--muted);font-size:13px;font-style:italic}
+.op-pkg{transition:transform .2s,box-shadow .2s}
+.op-pkg:hover{transform:translateY(-2px);box-shadow:0 12px 28px -10px rgba(60,45,30,.18)}
+.chk{transition:color .15s}
+.chk:hover{color:var(--ink)}
+/* focus states */
+input:focus-visible,select:focus-visible,button:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.fld:focus-within label{color:var(--accent)}
+/* header + theme toggle */
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.theme-btn{flex:none;width:42px;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;transition:transform .25s,border-color .2s,background .2s}
+.theme-btn:hover{transform:rotate(-12deg) scale(1.06);border-color:var(--accent)}
+.mini-btn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:5px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);box-shadow:var(--shadow);transition:border-color .2s,color .2s,transform .15s}
+.mini-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+  header.wrap{animation:rise .5s both}
+  #panel{animation:rise .5s .06s both}
+  #cols{animation:rise .5s .12s both}
+}
+::selection{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+html{color-scheme:light}
+*{transition-property:background-color,border-color}
+body{transition:background-color .3s}
+/* dark theme */
+html[data-theme="dark"]{color-scheme:dark}
+[data-theme="dark"]{
+  --bg:#1a1714; --card:#252019; --ink:#f0e9df; --muted:#a99e8d;
+  --line:#3a332a; --win:#22302a; --winline:#86a08e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -10px rgba(0,0,0,.55);
+  --boho:#cf9a6c; --kleser:#8aa593; --accent:#cf9a6c; --accent2:#8aa593;
+}
+[data-theme="dark"] body{
+  background:
+    radial-gradient(60% 50% at 12% -5%, rgba(207,154,108,.10), transparent 70%),
+    radial-gradient(55% 45% at 92% 0%, rgba(138,165,147,.12), transparent 70%),
+    var(--bg);
+}
+[data-theme="dark"] .panel{background:rgba(37,32,25,.78)}
+[data-theme="dark"] table.cechy th{background:#2d271f}
+[data-theme="dark"] table.cechy tbody tr:hover td{background:rgba(207,154,108,.06)}
+[data-theme="dark"] .alert{background:#332a18;border-color:#5a4a22;color:#e6c98a}
+[data-theme="dark"] .badge{background:rgba(169,158,141,.16)}
+[data-theme="dark"] .card.win{background:linear-gradient(180deg,rgba(138,165,147,.10),transparent 120px),var(--card)}
+[data-theme="dark"] .op-course .lab,[data-theme="dark"] .fld:focus-within label{filter:brightness(1.1)}
 </style>
 </head>
 <body>
 <header class="wrap" style="padding-top:32px;padding-bottom:16px">
-  <h1>Porównanie ofert weselnych</h1>
-  <p class="sub">Boho Pogoria (Dąbrowa Górnicza) &nbsp;•&nbsp; Przystanek Południe u Joli Kleser (Mysłowice)</p>
+  <div class="topbar">
+    <div>
+      <h1>Porównanie ofert weselnych</h1>
+      <p class="sub">Boho Pogoria (Dąbrowa Górnicza) &nbsp;•&nbsp; Przystanek Południe u Joli Kleser (Mysłowice)</p>
+    </div>
+    <button id="themeBtn" class="theme-btn" type="button" title="Przełącz motyw" aria-label="Przełącz jasny/ciemny motyw">🌙</button>
+  </div>
 </header>
 
 <section id="panel" class="wrap"></section>
@@ -396,6 +470,7 @@ function resztaSekcjaHTML(){
       <span class="chk" style="gap:12px">Wariant:
         <label class="chk"><input type="radio" name="resztaTier" value="budzet" checked> budżetowo</label>
         <label class="chk"><input type="radio" name="resztaTier" value="premium"> premium</label>
+        <button type="button" id="resztaToggle" class="mini-btn">Odznacz wszystkie</button>
       </span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:7px 18px;margin-top:12px">${rows}</div>
@@ -569,6 +644,20 @@ document.getElementById('cols').innerHTML =
   `<div class="cols">${kartaHTML('boho',OFERTY.boho.nazwa,selBoho(),'var(--boho)')}${kartaHTML('kleser','Przystanek Południe (Kleser)',selKleser(),'var(--kleser)')}</div>
    <div class="diff" id="diff"></div>`;
 document.getElementById('reszta').innerHTML = resztaSekcjaHTML();
+// odznacz/zaznacz wszystkie pozycje pozostałych kosztów
+(function(){
+  const btn=document.getElementById('resztaToggle');
+  const boxy=()=>RESZTA.map(c=>document.getElementById('rk_'+c.k)).filter(Boolean);
+  const odswiezLabel=()=>{ btn.textContent = boxy().some(b=>b.checked) ? 'Odznacz wszystkie' : 'Zaznacz wszystkie'; };
+  odswiezLabel();
+  btn.addEventListener('click',()=>{
+    const zaznacz = !boxy().some(b=>b.checked); // wszystko odznaczone → zaznacz
+    boxy().forEach(b=>b.checked=zaznacz);
+    odswiezLabel();
+    render();
+  });
+  boxy().forEach(b=>b.addEventListener('change',odswiezLabel));
+})();
 document.getElementById('szczegolySek').innerHTML =
   `<button id="btnSzcz" class="btn-szcz" type="button">Pokaż szczegóły wybranych pakietów</button>
    <div id="szczBox"></div>`;
@@ -606,6 +695,19 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Kontakt</td><td>biuro@bohopogoria.pl · +48 507 807 478</td><td>kontakt@pracowniasmaku.com.pl · +48 537 187 805</td></tr>
 </tbody></table>
 <p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho 2027 — ceny stałe. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
+
+// przełącznik motywu jasny/ciemny
+(function(){
+  const btn=document.getElementById('themeBtn');
+  const ikona=()=>{ btn.textContent = document.documentElement.getAttribute('data-theme')==='dark' ? '☀️' : '🌙'; };
+  ikona();
+  btn.addEventListener('click',()=>{
+    const nowy = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme',nowy);
+    localStorage.setItem('motyw',nowy);
+    ikona();
+  });
+})();
 
 function runSelfTests(){
   const T=[];
