@@ -175,7 +175,9 @@ const OFERTY = {
       pizza:[50,55,60], burgery:[55,60,65], bliskiWschod:[60,65,70],
       kolacjaSerw:{I:[45,50,55],II:[55,60,65],III:[65,70,75]},
       cieplaMiska:{I:[50,50,50],II:[55,55,55],III:[60,60,60]}, // stałe rocznikiem
-      slodkiStol:{szt3:[40,45,50], szt5:[55,60,65]}
+      slodkiStol:{szt3:[40,45,50], szt5:[55,60,65]},
+      // opłata serwisowa za tort/słodki stół spoza rekomendowanych podwykonawców (stałe rocznikiem)
+      serwisCiast:{tort:[10,10,10], tortStol:[15,15,15]}
     },
     // minimalny budżet przyjęcia [2026,2027,2028] wg sezonu (hi=VI–IX, lo=X–V) i dnia. Źródło: mail PP.
     minBudget:{
@@ -317,7 +319,7 @@ const OPISY = {
       II:"Woda w karafkach • Woda gaz./niegaz. (butelkowana) • Soki i napoje gazowane • Herbata i kawa • Wino białe i czerwone",
       III:"Woda w karafkach • Woda gaz./niegaz. (butelkowana) • Soki i napoje gazowane • Herbata i kawa • Piwo butelkowe • Wino białe i czerwone • Wódka (Finlandia)"
     },
-    korkowe:"Alkohol własny: opłata korkowa za osobę dorosłą obejmuje serwis — schłodzenie i podanie do stołów (zamiast pakietu napojów).",
+    korkowe:"Alkohol własny: opłata korkowa za osobę dorosłą obejmuje TYLKO serwis Twojego alkoholu — schłodzenie i podanie do stołów. Napoje bezalkoholowe (woda, soki, kawa, herbata) liczone osobno jako Pakiet I.",
     dodatki:{
       bufetZimno:"Śródziemnomorski: włoskie sery i wędliny • Antipasti (oliwki, karczochy, kapary, suszone pomidory) • Pasty do smarowania • Pieczywo na zakwasie i focaccia • Długo pieczony rostbef • Gravlax z sosem koperkowym • Sałatki: caprese, cezar, grecka, tabbouleh",
       meksyk:"Taco lub tostady z kurczakiem/wołowiną, guacamole, świeże zioła, pikle • Chilli con carne, nachosy, kwaśna śmietana, meksykańskie sosy, kolendra",
@@ -335,7 +337,8 @@ const OPISY = {
         II:"Chilli con carne / nachos • Wołowina po burgundzku • Kurczak tikka masala / basmati • Curry z wołowiną / ryż jaśminowy • Zupa tajska z kurczakiem lub krewetkami",
         III:"Zupa pho z wołowiną • Ramen tantanmen • Bouillabaisse — francuska zupa rybna z owocami morza"
       },
-      slodkiStol:"Sernik baskijski, ciasto czekoladowe na migdałach, makaroniki, mini bezy Pavlova, crème brûlée, tiramisu, panna cotta, cannoli (3 lub 5 sztuk wg wyboru). Wypiek na miejscu przez Jolę Kleser."
+      slodkiStol:"Sernik baskijski, ciasto czekoladowe na migdałach, makaroniki, mini bezy Pavlova, crème brûlée, tiramisu, panna cotta, cannoli (3 lub 5 sztuk wg wyboru). Wypiek na miejscu przez Jolę Kleser.",
+      serwisCiast:"Opłata serwisowa za tort i/lub słodki stół dostarczony spoza rekomendowanych podwykonawców PP (od osoby). Tort = 10 zł/os; tort + słodki stół = 15 zł/os. Przy wyborze tortu/słodkiego stołu od podwykonawców PP opłata nie obowiązuje."
     },
     laFlor:{
       BASIC:"Stoły gości: zioła w doniczkach + lampka LED w złotym okuciu, numerek akrylowy, świece pływające. Stół PM: kompozycja kwiatowa lub punktowe wazoniki, świece, szklane tuby z woskiem, zwiewny materiał. (150 zł/stolik + 1500 zł stół PM + 150 zł dojazd)",
@@ -372,14 +375,17 @@ function szczegolyKleser(ok){
   const zrCena = (ok.styl==="patera" ? P.obiadPatera[ok.pakiet] : P.obiadTalerz[ok.pakiet])[yr];
   const zrOpis = ok.styl==="patera" ? O.obiadPatera[ok.pakiet] : O.obiadTalerz[ok.pakiet];
   let h = blokOpis("Obiad ("+(ok.styl==="patera"?"patera":"talerz")+") — Pakiet "+ok.pakiet, zrCena+" zł/os", zrOpis, true);
-  if(ok.korkowe) h += blokOpis("Korkowe", P.korkowe[yr]+" zł/os", O.korkowe, true);
-  else h += blokOpis("Napoje — Pakiet "+ok.napoje, P.napoje[ok.napoje][yr]+" zł/os", O.napoje[ok.napoje], true);
+  if(ok.korkowe){
+    h += blokOpis("Napoje — Pakiet I (bezalkoholowe)", P.napoje.I[yr]+" zł/os", O.napoje.I, true);
+    h += blokOpis("Korkowe — serwis alkoholu własnego", P.korkowe[yr]+" zł/os", O.korkowe, true);
+  } else h += blokOpis("Napoje — Pakiet "+ok.napoje, P.napoje[ok.napoje][yr]+" zł/os", O.napoje[ok.napoje], true);
   const d=ok.dodatki||{};
   const flat={bufetZimno:["Bufet na zimno",P.dodatki.bufetZimno],meksyk:["Ciepła kolacja Meksyk",P.dodatki.meksyk],liveCooking:["Live cooking",P.dodatki.liveCooking],pizza:["Pizza w ogrodzie",P.dodatki.pizza],burgery:["Burgery w ogrodzie",P.dodatki.burgery],bliskiWschod:["Bliski Wschód",P.dodatki.bliskiWschod]};
   Object.keys(flat).forEach(k=>{ if(d[k]) h += blokOpis(flat[k][0], flat[k][1][yr]+" zł/os", D[k], true); });
   if(d.kolacjaSerw) h += blokOpis("Kolacja serwowana — Opcja "+d.kolacjaSerw, P.dodatki.kolacjaSerw[d.kolacjaSerw][yr]+" zł/os", D.kolacjaSerw[d.kolacjaSerw], true);
   if(d.cieplaMiska) h += blokOpis("Ciepła miska — Opcja "+d.cieplaMiska, P.dodatki.cieplaMiska[d.cieplaMiska][yr]+" zł/os", D.cieplaMiska[d.cieplaMiska], true);
   if(d.slodkiStol)  h += blokOpis("Słodki stół ("+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+")", P.dodatki.slodkiStol[d.slodkiStol][yr]+" zł/os", D.slodkiStol, true);
+  if(d.serwisCiast) h += blokOpis("Serwis ciast z zewnątrz ("+(d.serwisCiast==="tortStol"?"tort + słodki stół":"tort")+")", P.dodatki.serwisCiast[d.serwisCiast][yr]+" zł/os", D.serwisCiast, true);
   if(ok.laflor && ok.laflor!=='brak') h += blokOpis("Dekoracje La Flor — "+ok.laflor, "poza progiem min.", O.laFlor[ok.laflor], true);
   return h;
 }
@@ -427,7 +433,11 @@ function liczKleser(w){
   const stylTxt = (w.styl==="patera") ? "patera" : "talerz";
   r.push({k:"Obiad ("+stylTxt+") Pakiet "+w.pakiet+" ("+obiadCena+" zł/os)", v:billable*obiadCena});
 
-  if(w.korkowe){ const kk=O.korkowe[yr]; r.push({k:"Korkowe ("+kk+" zł/os)", v:billable*kk}); }
+  if(w.korkowe){
+    const np1=O.napoje.I[yr], kk=O.korkowe[yr];
+    r.push({k:"Napoje Pakiet I — bezalk. ("+np1+" zł/os)", v:billable*np1});
+    r.push({k:"Korkowe — serwis alkoholu własnego ("+kk+" zł/os)", v:billable*kk});
+  }
   else { const np=O.napoje[w.napoje][yr]; r.push({k:"Napoje Pakiet "+w.napoje+" ("+np+" zł/os)", v:billable*np}); }
 
   const d=w.dodatki||{}; const D=O.dodatki;
@@ -436,6 +446,7 @@ function liczKleser(w){
   if(d.kolacjaSerw){ const c=D.kolacjaSerw[d.kolacjaSerw][yr]; r.push({k:"Kolacja serwowana Opcja "+d.kolacjaSerw+" ("+c+" zł/os)", v:billable*c}); }
   if(d.cieplaMiska){ const c=D.cieplaMiska[d.cieplaMiska][yr]; r.push({k:"Ciepła miska Opcja "+d.cieplaMiska+" ("+c+" zł/os)", v:billable*c}); }
   if(d.slodkiStol){ const c=D.slodkiStol[d.slodkiStol][yr]; r.push({k:"Słodki stół "+(d.slodkiStol==="szt5"?"5 szt":"3 szt")+" ("+c+" zł/os)", v:billable*c}); }
+  if(d.serwisCiast){ const c=D.serwisCiast[d.serwisCiast][yr]; r.push({k:"Serwis ciast z zewnątrz "+(d.serwisCiast==="tortStol"?"(tort + słodki stół)":"(tort)")+" ("+c+" zł/os)", v:billable*c}); }
 
   const computed = r.reduce((s,x)=>s+x.v,0);
   const mb=O.minBudget[w.sezon][w.dzien][yr];
@@ -552,7 +563,7 @@ function selKleser(){
       <span class="chk">Napoje:
         <select id="k_napoje"><option value="I">Pakiet I</option><option value="II">Pakiet II</option><option value="III">Pakiet III</option></select>
       </span>
-      <label class="chk"><input type="checkbox" id="k_korkowe"> Korkowe zamiast napojów</label>
+      <label class="chk"><input type="checkbox" id="k_korkowe"> Korkowe (alkohol własny) + Pakiet I bezalk.</label>
     </div>
     <div class="grp">
       <label class="chk"><input type="checkbox" id="k_bufetZimno"> Bufet zimno</label>
@@ -568,6 +579,7 @@ function selKleser(){
       <span class="chk">Kolacja serw.: <select id="k_kolacjaSerw"><option value="">— brak —</option><option value="I">Opcja 1</option><option value="II">Opcja 2</option><option value="III">Opcja 3</option></select></span>
       <span class="chk">Ciepła miska: <select id="k_cieplaMiska"><option value="">— brak —</option><option value="I">Opcja 1</option><option value="II">Opcja 2</option><option value="III">Opcja 3</option></select></span>
       <span class="chk">Słodki stół: <select id="k_slodkiStol"><option value="">— brak —</option><option value="szt3">3 szt</option><option value="szt5">5 szt</option></select></span>
+      <span class="chk">Serwis ciast z zewnątrz: <select id="k_serwisCiast"><option value="">— brak —</option><option value="tort">Tort (10 zł/os)</option><option value="tortStol">Tort + słodki stół (15 zł/os)</option></select></span>
     </div>
     <div class="grp">
       <span class="chk">Dekoracje La Flor:
@@ -590,7 +602,7 @@ function odczytKleser(c){
     laflor:v('k_laflor')||'brak', osStolik:+document.getElementById('k_osStolik').value||10,
     dodatki:{ bufetZimno:ch('k_bufetZimno'), meksyk:ch('k_meksyk'), liveCooking:ch('k_liveCooking'),
       pizza:ch('k_pizza'), burgery:ch('k_burgery'), bliskiWschod:ch('k_bliskiWschod'),
-      kolacjaSerw:v('k_kolacjaSerw')||null, cieplaMiska:v('k_cieplaMiska')||null, slodkiStol:v('k_slodkiStol')||null }};
+      kolacjaSerw:v('k_kolacjaSerw')||null, cieplaMiska:v('k_cieplaMiska')||null, slodkiStol:v('k_slodkiStol')||null, serwisCiast:v('k_serwisCiast')||null }};
 }
 
 function kartaHTML(id, tytul, sel, kolor){
@@ -734,6 +746,11 @@ function runSelfTests(){
   // I: D + La Flor BASIC (120 ciał /10 = 12 stolików -> 12*150+1500+150=3450) -> 88200+3450=91650
   eq("Kleser D + La Flor", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,laflor:"BASIC",osStolik:10,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 91650);
 
+  // J: Korkowe = Pakiet I bezalk. + korkowe (NIE zamiast napojów). 2028 hi sob, 120, talerz III(330)+P1(90)+korkowe(40)+bufetZimno(90)+meksyk(80)+kolacjaSerw I(55)=685 ×120=82200 > próg 75000
+  eq("Kleser korkowe + P1", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"I",korkowe:true,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 82200);
+  // K: Serwis ciast z zewnątrz (tort+słodki stół 15 zł/os) doliczany. D(735) + 15 = 750 ×120 = 90000
+  eq("Kleser serwis ciast", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I",serwisCiast:"tortStol"}}).suma, 90000);
+
   // E: Reszta wesela, wariant budżetowy domyślny (bez plannera i poprawin)
   eq("Reszta budżet min", liczReszta().min, 32700);
   eq("Reszta budżet max", liczReszta().max, 53050);
@@ -748,7 +765,7 @@ function runSelfTests(){
   cov("opis kleser.patera.I", has(OPISY.kleser.obiadPatera,"I"));
   ["I","II","III"].forEach(k=>cov("opis kleser.napoje."+k, has(OPISY.kleser.napoje,k)));
   cov("opis kleser.korkowe", has(OPISY.kleser,"korkowe"));
-  ["bufetZimno","meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska","slodkiStol"].forEach(k=>cov("opis kleser.dodatki."+k, has(OPISY.kleser.dodatki,k)));
+  ["bufetZimno","meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska","slodkiStol","serwisCiast"].forEach(k=>cov("opis kleser.dodatki."+k, has(OPISY.kleser.dodatki,k)));
   ["I","II","III"].forEach(k=>{ cov("opis kolacjaSerw."+k, has(OPISY.kleser.dodatki.kolacjaSerw,k)); cov("opis cieplaMiska."+k, has(OPISY.kleser.dodatki.cieplaMiska,k)); });
 
   const fail=T.filter(t=>!t.ok);
