@@ -1,7 +1,10 @@
-# Przystanek Południe u Joli Kleser — Oferta weselna 2028
+# Przystanek Południe u Joli Kleser — Oferta weselna 2026 · 2027 · 2028
 
 > ul. Murckowska 1, 41-408 Mysłowice
-> Źródło: „Oferta wesele 2028 Kleser" (22 strony, PDF)
+> Źródło: „Oferta wesele Kleser" (PDF) + oferta mailowa dedykowana przyjęciom 2026/2027/2028.
+> **Ceny menu podane per rok: `2026 / 2027 / 2028` (zł/os)** — rosną rocznikiem. Pozycje bez potrójnej ceny są jednakowe we wszystkich latach.
+> **Minimalne budżety** różnią się rokiem, sezonem i dniem tygodnia (patrz niżej).
+> Dekoracje: osobny [cennik La Flor](Przystanek-Poludnie-La-Flor-cennik-dekoracji.md) (współpraca na wyłączność).
 
 ---
 
@@ -58,26 +61,81 @@ Czas trwania przyjęcia uzależniony jest od rozbudowania menu:
 
 ---
 
+## Minimalny budżet na organizację przyjęcia
+
+> Próg minimalny zależy od **roku**, **sezonu** i **dnia tygodnia**. Sezon wysoki = czerwiec–wrzesień, niski = październik–maj.
+
+### 2026
+| Dzień | Czerwiec–Wrzesień | Październik–Maj |
+|---|---|---|
+| Poniedziałek–Czwartek | 15 000 zł | 10 000 zł |
+| Piątek | 35 000 zł | 16 000 zł |
+| Sobota | 45 000 zł | 25 000 zł |
+| Niedziela | 25 000 zł | 10 000 zł |
+
+### 2027
+| Dzień | Czerwiec–Wrzesień | Październik–Maj |
+|---|---|---|
+| Poniedziałek–Czwartek | 20 000 zł | 15 000 zł |
+| Piątek | 45 000 zł | 35 000 zł |
+| Sobota | 60 000 zł | 45 000 zł |
+| Niedziela | 30 000 zł | 20 000 zł |
+
+### 2028
+| Dzień | Czerwiec–Wrzesień | Październik–Maj |
+|---|---|---|
+| Poniedziałek–Czwartek | 30 000 zł | 20 000 zł |
+| Piątek | 65 000 zł | 50 000 zł |
+| Sobota | 75 000 zł | 60 000 zł |
+| Niedziela | 40 000 zł | 30 000 zł |
+
+---
+
+## Rezerwacja i dostępność terminów
+
+- Wpłata zadatku = pełne potwierdzenie rezerwacji.
+- Po wstępnej rezerwacji termin trzymany jest **5 dni**; bez wpłaty wraca do puli.
+- Dostępne terminy: https://przystanekpoludnie.pl/dostepnosc-terminow/
+- Menu komponowane swobodnie — brak narzuconych zestawów; sala doradza kolejność serwowania.
+
+---
+
+## Atrakcje dodatkowe
+
+- Ceremonia zaślubin w ogrodzie
+- Serwis barmański
+- Prosecco piano
+
+> Szczegóły i wycena atrakcji omawiane na spotkaniu na miejscu.
+
+---
+
+## Dekoracje (La Flor)
+
+Przystanek Południe współpracuje **na wyłączność** z pracownią dekoratorską **La Flor**. Zapytania dot. dekoracji kierowane bezpośrednio do pracowni. Pełny cennik: [Cennik dekoracji — La Flor](Przystanek-Poludnie-La-Flor-cennik-dekoracji.md). Do całości zamówienia dekoracyjnego doliczany dojazd 150 zł.
+
+---
+
 ## Napoje
 
 > Każdego gościa witamy kieliszkiem wina musującego.
 
-### Pakiet 1 — 90 zł/os
+### Pakiet 1 — 70 / 80 / 90 zł/os
 - Woda w karafkach z cytrusami i ziołami
 - Woda gazowana i niegazowana (butelkowana)
 - Soki owocowe i napoje gazowane
 - Herbata oraz kawa
 
-### Pakiet 2 — 125 zł/os
+### Pakiet 2 — 105 / 115 / 125 zł/os
 - *wszystko z Pakietu 1*
 - Wino białe oraz czerwone
 
-### Pakiet 3 — 180 zł/os
+### Pakiet 3 — 140 / 160 / 180 zł/os
 - *wszystko z Pakietu 2*
 - Piwo butelkowe
 - Wódka
 
-### Korkowe — 40 zł/os
+### Korkowe — 30 / 35 / 40 zł/os
 Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego przez Państwa. Alkohol zostaje odpowiednio schłodzony oraz serwowany podczas przyjęcia bezpośrednio do stołów.
 
 > Wina dostarczane są przez **Mielżyński — Wine, Spirits, Specialities**. Oferujemy starannie wyselekcjonowane wina francuskie i włoskie, wytrawne, dopasowane do charakteru przyjęcia.
@@ -90,7 +148,7 @@ Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego prz
 
 > Format: przystawka + zupa + danie główne + deser, podane na talerzach.
 
-### Pakiet 1 — 240 zł/os
+### Pakiet 1 — 180 / 210 / 240 zł/os
 
 **Przystawka** (do wyboru):
 - Sałatka cezar z kurczakiem
@@ -109,7 +167,7 @@ Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego prz
 - Crème brûlée
 - Panna cotta
 
-### Pakiet 2 — 290 zł/os
+### Pakiet 2 — 220 / 250 / 290 zł/os
 
 **Przystawka** (do wyboru):
 - Burrata / pesto / oliwa bazyliowa / chrust z pieczywa / carpaccio z kolorowych pomidorów
@@ -131,7 +189,7 @@ Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego prz
 - Beza / krem z mascarpone / owoce / mus owocowy
 - Semifreddo z pistacjami oraz musem malinowym
 
-### Pakiet 3 — 330 zł/os
+### Pakiet 3 — 250 / 290 / 330 zł/os
 
 **Przystawka** (do wyboru):
 - Tatar wołowy / szalotka / grzanka / majonez grzybowy / pikle
@@ -157,7 +215,9 @@ Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego prz
 
 ## Obiad serwowany na paterach
 
-### Pakiet 1 — 350 zł/os
+### Pakiet 1 — 250 / 290 / 330 zł/os
+
+> Uwaga: nowa broszura 2026/2027/2028 podaje 250/290/330 zł/os. Starszy PDF „Oferta wesele 2028 Kleser" wskazywał tu 350 zł/os — przyjęto wartość z aktualnej oferty mailowej.
 
 **Przystawka** (do wyboru):
 - Burrata / pesto / oliwa bazyliowa / chrust z pieczywa / carpaccio z kolorowych pomidorów
@@ -242,10 +302,10 @@ Opłata korkowa (za osobę dorosłą) obejmuje serwis alkoholu dostarczonego prz
 
 ## Słodki stół
 
-| Wariant | Cena |
+| Wariant | Cena (2026 / 2027 / 2028) |
 |---|---|
-| 3 sztuki | 50 zł/os |
-| 5 sztuk | 65 zł/os |
+| 3 sztuki | 40 / 45 / 50 zł/os |
+| 5 sztuk | 55 / 60 / 65 zł/os |
 
 Nasze słodkości przygotowywane są na miejscu przez samą Jolę Kleser, z najwyższej jakości składników, co gwarantuje ich wyjątkowy smak i świeżość:
 
@@ -266,7 +326,7 @@ Nasze słodkości przygotowywane są na miejscu przez samą Jolę Kleser, z najw
 
 ---
 
-## Bufet na zimno — 90 zł/os
+## Bufet na zimno — 70 / 80 / 90 zł/os
 
 ### Śródziemnomorski
 Kompozycja inspirowana smakami południa Europy — lekka, aromatyczna i pełna słońca. To propozycja dla miłośników prostoty, najwyższej jakości produktów i wyrazistych, naturalnych smaków.
@@ -275,11 +335,11 @@ W menu znajdują się starannie wyselekcjonowane włoskie sery i wędliny, klasy
 
 Kolejne propozycje to długo pieczony rostbef oraz gravlax podawany z sosem koperkowym. Uzupełnieniem są świeże, sezonowe sałatki: caprese, cezar, grecka oraz tabbouleh — lekkie, pełne ziół i śródziemnomorskiego charakteru.
 
-> Bufet dostępny jest po obiedzie przez cały czas trwania przyjęcia, zapewniając gościom swobodny dostęp do przekąsek.
+> Bufet dostępny jest po obiedzie przez cały czas trwania przyjęcia, zapewniając gościom swobodny dostęp do przekąsek. Kompozycja obejmuje ok. **50 g wędlin/mięsa/ryby/serów oraz 100 g sałatki na osobę**.
 
 ---
 
-## Bufet na ciepło — Ciepła Kolacja 80 zł/os
+## Bufet na ciepło — Ciepła Kolacja 60 / 70 / 80 zł/os
 
 ### Meksyk
 Wyrazista i pełna energii propozycja inspirowana kuchnią meksykańską — bogata w aromatyczne przyprawy, świeże dodatki i intensywne smaki.
@@ -289,7 +349,7 @@ Wyrazista i pełna energii propozycja inspirowana kuchnią meksykańską — bog
 
 ---
 
-## Live cooking — 70 zł/os
+## Live cooking — 60 / 65 / 70 zł/os
 
 > To nie tylko sposób serwowania potraw — to kulinarne widowisko, które angażuje zmysły i buduje wyjątkową atmosferę. Goście mogą obserwować proces przygotowania dań: słyszeć skwierczenie składników, czuć zapachy przypraw i zobaczyć mistrzowskie techniki pracy kucharzy.
 
@@ -303,13 +363,13 @@ Tradycyjna hiszpańska paella — popisowe danie Joli Kleser, które otworzyło 
 
 ## W ogrodzie
 
-### Włoska pizza — 60 zł/os
+### Włoska pizza — 50 / 55 / 60 zł/os
 Prawdziwa włoska pizza neapolitańska — chrupiąca, pachnąca i wypiekana na oczach gości w tradycyjnym piecu opalanym drewnem. To nie tylko danie, ale kulinarne doświadczenie, w którym goście mogą tworzyć własne kompozycje w oparciu o autentyczne włoskie składniki. Ciasto dojrzewające przez minimum 24 godziny, cienkie ciasto oraz charakterystyczne, lekko wyrośnięte i przypieczone brzegi nadają pizzy jej niepowtarzalny smak i strukturę.
 
-### Burgery — 65 zł/os
+### Burgery — 55 / 60 / 65 zł/os
 Soczyste burgery prosto z rusztu, serwowane w miękkich, maślanych brioszkach z szerokim wyborem dodatków i autorskich sosów.
 
-### Bliski Wschód — 70 zł/os
+### Bliski Wschód — 60 / 65 / 70 zł/os
 Aromatyczny grill — zapach przypraw unoszący się w powietrzu, skwierczące mięso na ruszcie i ciepły, otulający klimat ogrodu. Serwujemy soczyste, doskonale przyprawione mięsa: wołowe kofty oraz souvlaki z kurczaka, podawane ze świeżymi i grillowanymi warzywami, aromatycznymi sosami oraz lawaszem lub pilawem.
 
 ---
@@ -318,7 +378,7 @@ Aromatyczny grill — zapach przypraw unoszący się w powietrzu, skwierczące m
 
 > Kolacja serwowana do stołu na talerzach — elegancka, dopracowana w każdym detalu i podana z najwyższą dbałością o styl oraz komfort gości.
 
-### Opcja 1 — 55 zł/os
+### Opcja 1 — 45 / 50 / 55 zł/os
 - Ravioli / palone masło / parmezan
 - Pierożki gyoza warzywne / azjatycki sos / prażony sezam / świeże zioła
 - Pierogi ruskie / okrasa z cebuli / kwaśna śmietana
@@ -326,7 +386,7 @@ Aromatyczny grill — zapach przypraw unoszący się w powietrzu, skwierczące m
 - Krokiety la bomba / chorizo / salsa
 - Gnocchi / kurczak / parmezan
 
-### Opcja 2 — 65 zł/os
+### Opcja 2 — 55 / 60 / 65 zł/os
 - Grecka musaka
 - Lasagna bolognese
 - Pasta fresca z ragù wołowym
@@ -334,7 +394,7 @@ Aromatyczny grill — zapach przypraw unoszący się w powietrzu, skwierczące m
 - Kotlet schabowy z sałatką ziemniaczaną
 - Tagine z kurczaka / kuskus / warzywa
 
-### Opcja 3 — 75 zł/os
+### Opcja 3 — 65 / 70 / 75 zł/os
 - Kofty wołowo-jagnięce w lawaszu
 - Burger pulled pork / maślana bułka / sosy
 - Koreańskie wołowe bulgogi z ryżem basmati
