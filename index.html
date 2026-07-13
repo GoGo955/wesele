@@ -152,6 +152,8 @@ html[data-theme="dark"]{color-scheme:dark}
 const OFERTY = {
   boho: {
     nazwa:"Boho Pogoria",
+    // oferta bazowa 2027; w 2028 menu i napoje są wyższe o 15%, zaokrąglone do pełnych złotych
+    podwyzka2028:0.15,
     menu:{I:450,II:475,III:510,IV:570},
     napoje:{I:95,II:155},
     minDnia:{pon:50,wt:50,sr:50,czw:50,pt:70,sob:90,nd:70},
@@ -197,6 +199,11 @@ const DNI=[["pon","Poniedziałek"],["wt","Wtorek"],["sr","Środa"],["czw","Czwar
 const LATA=["2026","2027","2028"]; // index 0..2
 const SEZONY=[["hi","Czerwiec–Wrzesień"],["lo","Październik–Maj"]];
 const fmtPLN = n => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN',maximumFractionDigits:0}).format(Math.round(n));
+const fmtStawkaPLN = n => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN',minimumFractionDigits:Number.isInteger(n)?0:2,maximumFractionDigits:2}).format(n);
+function cenaBoho(kategoria, pakiet, rok){
+  const cenaBazowa=OFERTY.boho[kategoria][pakiet];
+  return rok===2 ? Math.round(cenaBazowa*(1+OFERTY.boho.podwyzka2028)) : cenaBazowa;
+}
 
 // Pozostałe koszty wesela poza salą/cateringiem (niezależne od sali).
 // Źródło: reports/koszty-wesela-slask-2027.md (Śląsk ~2027, 60–70 os.).
@@ -363,9 +370,10 @@ function blokOpis(tytul, cena, dane, kl){
   </div>`;
 }
 function szczegolyBoho(ob){
-  const O=OPISY.boho, P=OFERTY.boho;
-  let h = blokOpis("Menu "+ob.menu, P.menu[ob.menu]+" zł/os", O.menu[ob.menu], false);
-  h += blokOpis("Napoje — wersja "+ob.napoje, P.napoje[ob.napoje]+" zł/os", O.napoje[ob.napoje], false);
+  const O=OPISY.boho, P=OFERTY.boho, yr=ob.rok??1;
+  const menuCena=cenaBoho("menu",ob.menu,yr), napojeCena=cenaBoho("napoje",ob.napoje,yr);
+  let h = blokOpis("Menu "+ob.menu, fmtStawkaPLN(menuCena)+"/os", O.menu[ob.menu], false);
+  h += blokOpis("Napoje — wersja "+ob.napoje, fmtStawkaPLN(napojeCena)+"/os", O.napoje[ob.napoje], false);
   const nazwyB={srodziemnomorski:"Bufet śródziemnomorski",street:"Bufet street food",swojski:"Bufet swojski"};
   if(ob.opcje && ob.opcje.bufet) h += blokOpis(nazwyB[ob.opcje.bufet], P.bufet[ob.opcje.bufet]+" zł/os", O.bufet[ob.opcje.bufet], false);
   return h;
@@ -392,13 +400,14 @@ function szczegolyKleser(ok){
 let pokazSzczegoly=false;
 
 function liczBoho(w){
-  const O=OFERTY.boho;
+  const O=OFERTY.boho, yr=w.rok??1;
   const billable = w.dorosli + O.dzieci.znizka * (w.dzieci50||0);
   const r=[]; // rozbicie {k, v}
-  const menuC = billable * O.menu[w.menu];
-  const napC  = billable * O.napoje[w.napoje];
-  r.push({k:"Menu "+w.menu+" ("+O.menu[w.menu]+" zł/os)", v:menuC});
-  r.push({k:"Napoje wersja "+w.napoje+" ("+O.napoje[w.napoje]+" zł/os)", v:napC});
+  const menuCena=cenaBoho("menu",w.menu,yr), napojeCena=cenaBoho("napoje",w.napoje,yr);
+  const menuC = billable * menuCena;
+  const napC  = billable * napojeCena;
+  r.push({k:"Menu "+w.menu+" ("+fmtStawkaPLN(menuCena)+"/os)", v:menuC});
+  r.push({k:"Napoje wersja "+w.napoje+" ("+fmtStawkaPLN(napojeCena)+"/os)", v:napC});
 
   const min = O.minDnia[w.dzien];
   const brak = Math.max(0, min - w.dorosli);
@@ -509,9 +518,9 @@ function panelHTML(){
     <div class="fld"><label>Dzieci 3–10 (50%)*</label><input type="number" id="dzieci50" min="0" value="0"></div>
     <div class="fld"><label>Dzieci małe (gratis)*</label><input type="number" id="dzieciGratis" min="0" value="0"></div>
     <div class="fld"><label>Dzień tygodnia</label><select id="dzien">${dni}</select></div>
-    <div class="fld"><label>Rok (PP)</label><select id="rok">${LATA.map((y,i)=>`<option value="${i}">${y}</option>`).join("")}</select></div>
+    <div class="fld"><label>Rok wesela</label><select id="rok">${LATA.map((y,i)=>`<option value="${i}">${y}</option>`).join("")}</select></div>
     <div class="fld"><label>Sezon (PP)</label><select id="sezon">${SEZONY.map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>
-    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku: Boho 3–10/&lt;2, Kleser 4–10/&lt;3. Ceny PP zależą od roku/sezonu; Boho = oferta 2027 (stała).</span></div>
+    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku: Boho 3–10/&lt;2, Kleser 4–10/&lt;3. Ceny PP zależą od roku/sezonu; Boho: menu i napoje 2028 +15%, zaokrąglone do pełnych zł.</span></div>
   </div></div>`;
 }
 function stanWspolny(){
@@ -530,10 +539,10 @@ function selBoho(){
     <h3 class="sek">Boho — wybór</h3>
     <div class="grp">
       <span class="chk">Menu:
-        <select id="b_menu">${["I","II","III","IV"].map(v=>`<option value="${v}">${v} (${OFERTY.boho.menu[v]} zł)</option>`).join("")}</select>
+        <select id="b_menu">${["I","II","III","IV"].map(v=>`<option value="${v}">${v}</option>`).join("")}</select>
       </span>
       <span class="chk">Napoje:
-        <select id="b_napoje"><option value="I">I (95 zł)</option><option value="II">II (155 zł)</option></select>
+        <select id="b_napoje"><option value="I">I</option><option value="II">II</option></select>
       </span>
     </div>
     <div class="grp">
@@ -681,6 +690,10 @@ function odswiezPakiety(){
   const sel=document.getElementById('k_pakiet'), prev=sel.value;
   sel.innerHTML = Object.keys(zr).map(k=>`<option value="${k}">${k} (${zr[k][yr]} zł)</option>`).join("");
   if([...sel.options].some(o=>o.value===prev)) sel.value=prev;
+  const menu=document.getElementById('b_menu');
+  [...menu.options].forEach(o=>o.textContent=`${o.value} (${fmtStawkaPLN(cenaBoho("menu",o.value,yr))})`);
+  const napoje=document.getElementById('b_napoje');
+  [...napoje.options].forEach(o=>o.textContent=`${o.value} (${fmtStawkaPLN(cenaBoho("napoje",o.value,yr))})`);
 }
 document.getElementById('dzien').value="sob";
 document.getElementById('rok').value="1"; // domyślnie 2027
@@ -706,7 +719,7 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Opłata rezerwacyjna</td><td>8000 zł (wliczana w cenę)</td><td>brak w ofercie</td></tr>
 <tr><td>Kontakt</td><td>biuro@bohopogoria.pl · +48 507 807 478</td><td>kontakt@pracowniasmaku.com.pl · +48 537 187 805</td></tr>
 </tbody></table>
-<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho 2027 — ceny stałe. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
+<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho: stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 15% oraz zaokrąglone do pełnych złotych. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
 
 // przełącznik motywu jasny/ciemny
 (function(){
@@ -729,6 +742,10 @@ function runSelfTests(){
   eq("Boho A suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 54500);
   // B: Boho sob, 70 dorosłych, Menu I, Napoje I -> 31500+6650+5000(20*250)=43150
   eq("Boho B dopłata", liczBoho({dorosli:70,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 43150);
+  // Boho 2028: menu i napoje są podniesione o 15% względem oferty bazowej 2027, do pełnych złotych.
+  eq("Boho menu I 2028 +15%", cenaBoho("menu","I",2), 518);
+  eq("Boho napoje I 2028 +15%", cenaBoho("napoje","I",2), 109);
+  eq("Boho 2028 suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 62700);
   // C: Kleser 2028 hi sob, 100, talerz I(240), napoje I(90), bufetZimno(90) -> 100*420=42000 < próg 75000 -> 75000
   eq("Kleser C próg", liczKleser({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"I",napoje:"I",korkowe:false,dodatki:{bufetZimno:true}}).suma, 75000);
   // D: Kleser 2028 hi sob, 120, talerz III(330), napoje III(180), bufetZimno(90), meksyk(80), kolacjaSerw I(55) = 120*735=88200 > próg

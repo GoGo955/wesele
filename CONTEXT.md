@@ -10,7 +10,7 @@ Dokument dla osób rozwijających `index.html`. Opis domeny: porównanie dwóch 
 ## Model danych (stałe w `<script>`)
 
 - `OFERTY` — ceny i parametry sal.
-  - `boho`: ceny **stałe** (oferta 2027). Model minimum = min. gości/dzień + dopłata 250 zł/brakującą osobę.
+- `boho`: stawki bazowe z oferty 2027; menu i napoje w 2028 są podwyższone o 15% i zaokrąglone do pełnych złotych. Model minimum = min. gości/dzień + dopłata 250 zł/brakującą osobę.
   - `kleser` (Przystanek Południe): wszystkie ceny zł/os jako tablica **`[2026, 2027, 2028]`**. Próg minimalnego budżetu `minBudget[sezon][dzień][rok]` (sezon `hi`=VI–IX, `lo`=X–V; źródło: mail). `minOs` = min. gości/dzień (rok-niezależne). `laFlor` = pakiety dekoracji (cena/stolik + stół PM) + `laFlorDojazd`.
 - `OPISY` — zawartość pakietów (teksty do panelu szczegółów), w tym `OPISY.kleser.laFlor`.
 - `RESZTA` — 23 kategorie kosztów poza salą (foto, wideo…), każda `b=[min,max]` budżet, `p=[min,max]` premium, `opt:true` = domyślnie odznaczone. Źródło: `reports/koszty-wesela-slask-2027.md`.
@@ -30,7 +30,7 @@ Dokument dla osób rozwijających `index.html`. Opis domeny: porównanie dwóch 
 
 - Nowa pozycja menu PP → dodaj cenę jako `[2026,2027,2028]` w `OFERTY.kleser` + opis w `OPISY.kleser` + obsługę w `liczKleser`/`szczegolyKleser` + (jeśli wybieralna) kontrolkę w `selKleser`/`odczytKleser`.
 - Zmiana kosztów pozabankietowych → edytuj `RESZTA` i zaktualizuj self-test E (sumy 32 700–53 050 budżet).
-- Boho per-rok: obecnie brak danych innych lat — ceny stałe 2027 (zaznaczone w UI i stopce).
+- Boho per-rok: ceny bazowe 2027; dla 2028 menu i napoje są liczone z podwyżką 15%, zaokrągloną do pełnych złotych. Pozostałe stawki pozostają bazowe.
 
 ## Stan (2026-06-05)
 
