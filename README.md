@@ -7,7 +7,7 @@ Jeden samodzielny plik `index.html` (HTML + CSS + JS inline, **zero zależności
 
 - **Koszt sala + catering** dla obu sal na żywo wg: liczby gości, dnia tygodnia, **roku (2026/2027/2028)** i **sezonu** (PP), wybranych pakietów menu, napojów, bufetów i ciepłych kolacji.
 - **Przystanek Południe**: ceny per rok, próg minimalnego budżetu (rok × sezon × dzień), dekoracje **La Flor** (BASIC/STANDARD/PREMIUM, liczone wg liczby stolików).
-- **Boho Pogoria**: menu I–IV, model minimum gości/dzień (oferta 2027, ceny stałe).
+- **Boho Pogoria**: menu I–IV, model minimum gości/dzień; stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 15% i zaokrąglone do pełnych złotych.
 - **Pozostałe koszty wesela** (poza salą): foto, wideo, muzyka, suknia, atrakcje… jako zakres budżet ↔ premium → **całkowity budżet** per sala.
 - Panel szczegółów zawartości pakietów + tabela porównania cech.
 
