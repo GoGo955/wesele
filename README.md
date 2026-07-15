@@ -7,7 +7,8 @@ Jeden samodzielny plik `index.html` (HTML + CSS + JS inline, **zero zależności
 
 - **Koszt sala + catering** dla obu sal na żywo wg: liczby gości, dnia tygodnia, **roku (2026/2027/2028)** i **sezonu** (PP), wybranych pakietów menu, napojów, bufetów i ciepłych kolacji.
 - **Przystanek Południe**: ceny per rok, próg minimalnego budżetu (rok × sezon × dzień), dekoracje **La Flor** (BASIC/STANDARD/PREMIUM, liczone wg liczby stolików).
-- **Boho Pogoria**: menu I–IV, model minimum gości/dzień; stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 15% i zaokrąglone do pełnych złotych.
+- **Boho Pogoria**: menu I–IV, model minimum gości/dzień; stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 9% i zaokrąglone do pełnych złotych.
+- **Scenariusze**: osobny widok `#scenariusze` z gotowym porównaniem interesujących terminów lipcowych dla PP 2027/2028 i Boho 2028, przeliczany dynamicznie po zmianie liczby dorosłych. Widok ma dwie macierze: główne porównanie kosztów oraz osobną tabelę szczegółów jedzenia i napojów. W scenariuszach Boho słodki stół jest doliczany jako 3500 zł.
 - **Pozostałe koszty wesela** (poza salą): foto, wideo, muzyka, suknia, atrakcje… jako zakres budżet ↔ premium → **całkowity budżet** per sala.
 - Panel szczegółów zawartości pakietów + tabela porównania cech.
 
@@ -28,7 +29,7 @@ CONTEXT.md        ← architektura i model danych (dla rozwijających)
 
 Otwórz `index.html` w przeglądarce (dwuklik).
 
-**Self-testy silnika cenowego:** otwórz `index.html#test` i sprawdź konsolę (F12) — oczekiwane „SELF-TEST: WSZYSTKIE OK" (44 testy).
+**Self-testy silnika cenowego:** otwórz `index.html#test` i sprawdź konsolę (F12) — oczekiwane „SELF-TEST: WSZYSTKIE OK" (56 testów).
 
 Headless (Node + jsdom):
 ```

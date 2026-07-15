@@ -96,8 +96,46 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:none;borde
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
 .theme-btn{flex:none;width:42px;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;transition:transform .25s,border-color .2s,background .2s}
 .theme-btn:hover{transform:rotate(-12deg) scale(1.06);border-color:var(--accent)}
+.nav{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.nav-link{font:inherit;font-size:14px;font-weight:700;text-decoration:none;color:var(--muted);padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.nav-link.active{color:#fff;background:var(--accent);border-color:var(--accent)}
 .mini-btn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:5px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);box-shadow:var(--shadow);transition:border-color .2s,color .2s,transform .15s}
 .mini-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.view-hidden{display:none!important}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:0 0 18px}
+.scenario-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border-top:3px solid var(--accent)}
+.scenario-card.kleser{border-top-color:var(--kleser)}
+.scenario-card.boho{border-top-color:var(--boho)}
+.scenario-card h3{font-family:var(--serif);font-size:18px;font-weight:560;margin-bottom:6px}
+.scenario-card .total{font-family:var(--serif);font-size:31px;font-weight:600;line-height:1.05;font-variant-numeric:tabular-nums}
+.scenario-meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+.scenario-card.best{box-shadow:0 0 0 2px var(--win),var(--shadow);border-color:var(--winline)}
+.scenario-table-block{margin-top:18px}
+.scenario-table-title{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.scenario-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow)}
+.scenario-table{width:100%;border-collapse:collapse;min-width:900px}
+.scenario-table th,.scenario-table td{padding:10px 12px;border-bottom:1px solid color-mix(in srgb,var(--line) 72%,transparent);font-size:13.5px;text-align:left;vertical-align:top}
+.scenario-table th{background:#f0ebe2;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.scenario-table td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scenario-table th:first-child,.scenario-table td:first-child{position:sticky;left:0;background:var(--card);z-index:1}
+.scenario-table th:first-child{background:#f0ebe2;z-index:2}
+.scenario-table .venue-group th{font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.scenario-table .group-kleser{box-shadow:inset 0 3px 0 var(--kleser)}
+.scenario-table .group-boho{box-shadow:inset 0 3px 0 var(--boho)}
+.scenario-table th.venue-kleser{box-shadow:inset 0 2px 0 color-mix(in srgb,var(--kleser) 72%,transparent)}
+.scenario-table th.venue-boho{box-shadow:inset 0 2px 0 color-mix(in srgb,var(--boho) 72%,transparent)}
+.venue-label{display:inline-block;margin-bottom:5px;padding:2px 7px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.05em}
+.venue-kleser .venue-label{color:var(--kleser);background:color-mix(in srgb,var(--kleser) 12%,transparent)}
+.venue-boho .venue-label{color:var(--boho);background:color-mix(in srgb,var(--boho) 12%,transparent)}
+.venue-title{display:block;color:var(--ink);font-size:13px;font-weight:800;text-transform:none;letter-spacing:0}
+.venue-sub{display:block;margin-top:2px;color:var(--muted);font-size:11.5px;font-weight:600;text-transform:none;letter-spacing:0;line-height:1.35}
+.scenario-table .total-row td{font-weight:800;font-size:15px}
+.scenario-table .per-row td{font-weight:700}
+.scenario-table.details td,.scenario-table.details th{font-size:13px}
+.scenario-table.details td{color:color-mix(in srgb,var(--ink) 88%,var(--muted))}
+.scenario-table.details .detail-group td{background:rgba(133,124,112,.045);color:var(--muted);font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.scenario-table.details .detail-group td:first-child{background:rgba(133,124,112,.045)}
+.scenario-note{margin-top:10px;color:var(--muted);font-size:12.5px}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:no-preference){
   header.wrap{animation:rise .5s both}
@@ -124,6 +162,9 @@ html[data-theme="dark"]{color-scheme:dark}
 }
 [data-theme="dark"] .panel{background:rgba(37,32,25,.78)}
 [data-theme="dark"] table.cechy th{background:#2d271f}
+[data-theme="dark"] .scenario-table th{background:#2d271f}
+[data-theme="dark"] .scenario-table th:first-child{background:#2d271f}
+[data-theme="dark"] .scenario-table.details .detail-group td,[data-theme="dark"] .scenario-table.details .detail-group td:first-child{background:rgba(169,158,141,.07)}
 [data-theme="dark"] table.cechy tbody tr:hover td{background:rgba(207,154,108,.06)}
 [data-theme="dark"] .alert{background:#332a18;border-color:#5a4a22;color:#e6c98a}
 [data-theme="dark"] .badge{background:rgba(169,158,141,.16)}
@@ -137,6 +178,10 @@ html[data-theme="dark"]{color-scheme:dark}
     <div>
       <h1>Porównanie ofert weselnych</h1>
       <p class="sub">Boho Pogoria (Dąbrowa Górnicza) &nbsp;•&nbsp; Przystanek Południe u Joli Kleser (Mysłowice)</p>
+      <nav class="nav" aria-label="Widoki">
+        <a class="nav-link" id="navKalkulator" href="#kalkulator">Kalkulator</a>
+        <a class="nav-link" id="navScenariusze" href="#scenariusze">Scenariusze</a>
+      </nav>
     </div>
     <button id="themeBtn" class="theme-btn" type="button" title="Przełącz motyw" aria-label="Przełącz jasny/ciemny motyw">🌙</button>
   </div>
@@ -147,13 +192,14 @@ html[data-theme="dark"]{color-scheme:dark}
 <section id="szczegolySek" class="wrap"></section>
 <section id="cechy" class="wrap"></section>
 <section id="reszta" class="wrap"></section>
+<section id="scenariusze" class="wrap view-hidden"></section>
 
 <script>
 const OFERTY = {
   boho: {
     nazwa:"Boho Pogoria",
-    // oferta bazowa 2027; w 2028 menu i napoje są wyższe o 15%, zaokrąglone do pełnych złotych
-    podwyzka2028:0.15,
+    // oferta bazowa 2027; w 2028 menu i napoje są wyższe o 9%, zaokrąglone do pełnych złotych
+    podwyzka2028:0.09,
     menu:{I:450,II:475,III:510,IV:570},
     napoje:{I:95,II:155},
     minDnia:{pon:50,wt:50,sr:50,czw:50,pt:70,sob:90,nd:70},
@@ -176,7 +222,8 @@ const OFERTY = {
       bufetZimno:[70,80,90], meksyk:[60,70,80], liveCooking:[60,65,70],
       pizza:[50,55,60], burgery:[55,60,65], bliskiWschod:[60,65,70],
       kolacjaSerw:{I:[45,50,55],II:[55,60,65],III:[65,70,75]},
-      cieplaMiska:{I:[50,50,50],II:[55,55,55],III:[60,60,60]}, // stałe rocznikiem
+      // Ciepła miska 2028: ręczna korekta +5 zł/os po weryfikacji Kajetana na miejscu w najnowszej karcie.
+      cieplaMiska:{I:[50,50,55],II:[55,55,60],III:[60,60,65]},
       slodkiStol:{szt3:[40,45,50], szt5:[55,60,65]},
       // opłata serwisowa za tort/słodki stół spoza rekomendowanych podwykonawców (stałe rocznikiem)
       serwisCiast:{tort:[10,10,10], tortStol:[15,15,15]}
@@ -418,6 +465,7 @@ function liczBoho(w){
   if(op.ceremonia) r.push({k:"Ceremonia w plenerze", v:O.ceremonia});
   if(op.godziny)   r.push({k:"Dodatkowe godziny ("+op.godziny+"× 1500 zł)", v:op.godziny*O.dodatkowaGodzina});
   if(op.bufet)     r.push({k:"Bufet: "+op.bufet+" ("+O.bufet[op.bufet]+" zł/os)", v:billable*O.bufet[op.bufet]});
+  if(op.slodkiStol) r.push({k:"Słodki stół (szacunek "+fmtPLN(op.slodkiStol)+")", v:op.slodkiStol});
   if(no.apartamenty) r.push({k:"Apartamenty 2-os ("+no.apartamenty+"× 600 zł)", v:no.apartamenty*O.nocleg.apartament});
   if(no.domki)       r.push({k:"Domki 6-os ("+no.domki+"× 1200 zł)", v:no.domki*O.nocleg.domek});
   if(no.sniadania)   r.push({k:"Śniadania ("+no.sniadania+"× 80 zł)", v:no.sniadania*O.nocleg.sniadanie});
@@ -520,7 +568,7 @@ function panelHTML(){
     <div class="fld"><label>Dzień tygodnia</label><select id="dzien">${dni}</select></div>
     <div class="fld"><label>Rok wesela</label><select id="rok">${LATA.map((y,i)=>`<option value="${i}">${y}</option>`).join("")}</select></div>
     <div class="fld"><label>Sezon (PP)</label><select id="sezon">${SEZONY.map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>
-    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku: Boho 3–10/&lt;2, Kleser 4–10/&lt;3. Ceny PP zależą od roku/sezonu; Boho: menu i napoje 2028 +15%, zaokrąglone do pełnych zł.</span></div>
+    <div class="fld" style="flex:1;min-width:200px"><label>&nbsp;</label><span class="sub" style="font-size:12px">*progi wieku: Boho 3–10/&lt;2, Kleser 4–10/&lt;3. Ceny PP zależą od roku/sezonu; Boho: menu i napoje 2028 +9%, zaokrąglone do pełnych zł.</span></div>
   </div></div>`;
 }
 function stanWspolny(){
@@ -660,6 +708,132 @@ function renderSzczegoly(ob, ok){
   </div>`;
 }
 
+function scenariuszeDane(dorosli){
+  const base={dorosli,dzieci50:0,dzieciGratis:0,sezon:"hi"};
+  const ppDodatki={bufetZimno:true,liveCooking:true,kolacjaSerw:"II",cieplaMiska:"I",slodkiStol:"szt3"};
+  const pp=(rok,alko)=>({
+    sala:"Przystanek Południe", typ:"kleser", rok, miesiac:"Lipiec", dzien:rok===2?"Czwartek / Niedziela":"Niedziela",
+    wariant:alko?"Alkoholowe":"Bezalkoholowe + korkowe",
+    zalozenia:"Obiad talerz pakiet II, bufet zimny, live cooking, kolacja serwowana II, ciepła miska I, słodki stół 3 szt.",
+    input:{...base,rok,dzien:"nd",styl:"talerz",pakiet:"II",napoje:alko?"III":"I",korkowe:!alko,dodatki:{...ppDodatki}}
+  });
+  const boho=(napoje,wariant)=>({
+    sala:"Boho Pogoria", typ:"boho", rok:2, miesiac:"Lipiec", dzien:"Czwartek", wariant,
+    zalozenia:"Menu II, słodki stół liczony jako 3 500 zł; bez ceremonii, bufetów, noclegów, łodzi i dodatkowych godzin.",
+    input:{dorosli,dzieci50:0,dzieciGratis:0,rok:2,dzien:"czw",menu:"II",napoje,opcje:{slodkiStol:3500},nocleg:{}}
+  });
+  return [pp(1,false),pp(1,true),pp(2,false),pp(2,true),boho("I","Bezalkoholowe"),boho("II","Alkoholowe")];
+}
+function renderScenariusze(){
+  const root=document.getElementById('scenariusze'); if(!root) return;
+  const input=document.getElementById('sc_dorosli');
+  const keepFocus=document.activeElement && document.activeElement.id==="sc_dorosli";
+  const dorosli=Math.max(0, input ? (+input.value||0) : 70);
+  const rows=scenariuszeDane(dorosli).map(s=>{
+    const wynik=s.typ==="boho" ? liczBoho(s.input) : liczKleser(s.input);
+    return {...s, wynik, per:dorosli>0 ? wynik.suma/dorosli : 0};
+  });
+  const cheapest=Math.min(...rows.map(r=>r.wynik.suma));
+  const cards=rows.map(r=>`<article class="scenario-card ${r.typ}${r.wynik.suma===cheapest?" best":""}">
+    <div class="scenario-meta">${LATA[r.rok]} · ${r.miesiac} · ${r.dzien} · ${r.wariant}</div>
+    <h3>${r.sala}</h3>
+    <div class="total">${fmtPLN(r.wynik.suma)}</div>
+    <div class="per">${fmtPLN(r.per)} / dorosłą osobę</div>
+  </article>`).join("");
+  const money=v=>v ? fmtPLN(v) : "—";
+  const sumaPoNazwie=(r, tests)=>r.wynik.rozbicie
+    .filter(x=>tests.some(t=>x.k.toLowerCase().includes(t)))
+    .reduce((s,x)=>s+x.v,0);
+  const value=(r,key)=>{
+    if(key==="sala") return `<b>${r.sala}</b><br><span class="sub">${r.wariant}</span>`;
+    if(key==="termin") return `${LATA[r.rok]} · ${r.miesiac} · ${r.dzien}`;
+    if(key==="total") return `<b>${fmtPLN(r.wynik.suma)}</b>${r.wynik.suma===cheapest?'<br><span class="badge">najtaniej</span>':''}`;
+    if(key==="per") return fmtPLN(r.per);
+    if(key==="jedzenie") return money(sumaPoNazwie(r,["menu ","obiad","bufet na zimno","live cooking","kolacja serwowana","ciepła miska"]));
+    if(key==="napojeAlkohol") return money(sumaPoNazwie(r,["napoje","korkowe"]));
+    if(key==="menu") return money(sumaPoNazwie(r,["menu ","obiad"]));
+    if(key==="napoje") return money(sumaPoNazwie(r,["napoje"]));
+    if(key==="korkowe") return money(sumaPoNazwie(r,["korkowe"]));
+    if(key==="bufet") return money(sumaPoNazwie(r,["bufet na zimno"]));
+    if(key==="live") return money(sumaPoNazwie(r,["live cooking"]));
+    if(key==="kolacja") return money(sumaPoNazwie(r,["kolacja serwowana"]));
+    if(key==="miska") return money(sumaPoNazwie(r,["ciepła miska"]));
+    if(key==="slodki") return money(sumaPoNazwie(r,["słodki stół"]));
+    if(key==="prog") return money(sumaPoNazwie(r,["próg min.","dopłata"]));
+    if(key==="alert") return r.wynik.alerty.length ? `<span class="alert" style="display:block">${r.wynik.alerty.join("<br>")}</span>` : "—";
+    return "";
+  };
+  const mainRows=[
+    {label:"Termin",key:"termin"},
+    {label:"Razem",key:"total",cls:"total-row"},
+    {label:"Za dorosłą osobę",key:"per",cls:"per-row"},
+    {label:"Jedzenie",key:"jedzenie"},
+    {label:"Napoje i alkohol",key:"napojeAlkohol"},
+    {label:"Słodki stół",key:"slodki"}
+  ];
+  if(rows.some(r=>r.wynik.alerty.length)) mainRows.push({label:"Alerty",key:"alert"});
+  const detailRows=[
+    {label:"Jedzenie",group:true},
+    {label:"Menu / obiad bazowy",key:"menu"},
+    {label:"Bufet na zimno",key:"bufet"},
+    {label:"Live cooking",key:"live"},
+    {label:"Kolacja serwowana",key:"kolacja"},
+    {label:"Ciepła miska",key:"miska"},
+    {label:"Napoje",group:true},
+    {label:"Napoje",key:"napoje"},
+    {label:"Korkowe",key:"korkowe"}
+  ];
+  const numericKeys=["total","per","jedzenie","napojeAlkohol","menu","napoje","korkowe","bufet","live","kolacja","miska","slodki"];
+  const renderBody=items=>items.map(row=>{
+    if(row.group) return `<tr class="detail-group"><td colspan="${rows.length+1}">${row.label}</td></tr>`;
+    return `<tr class="${row.cls||""}"><td>${row.label}</td>${rows.map(r=>`<td class="venue-${r.typ} ${numericKeys.includes(row.key)?"num":""}">${value(r,row.key)}</td>`).join("")}</tr>`;
+  }).join("");
+  const renderHead=()=>`<thead>
+    <tr class="venue-group"><th></th><th class="group-kleser" colspan="4">Przystanek Południe</th><th class="group-boho" colspan="2">Boho Pogoria</th></tr>
+    <tr><th>Pozycja</th>${rows.map(r=>`<th class="venue-${r.typ}"><span class="venue-title">${LATA[r.rok]}</span><span class="venue-sub">${r.wariant}</span></th>`).join("")}</tr>
+  </thead>`;
+  root.innerHTML = `<div class="panel" style="position:static">
+    <div class="row">
+      <div class="fld"><label>Dorośli</label><input type="number" id="sc_dorosli" min="0" value="${dorosli}"></div>
+      <div class="fld" style="flex:1;min-width:220px"><label>Założenia stałe</label><span class="sub" style="font-size:13px">Lipiec = sezon VI–IX. PP: niedziela 2027/2028. Boho: czwartek 2028. Dzieci nie są liczone w tym widoku.</span></div>
+    </div>
+  </div>
+  <div class="scenario-grid">${cards}</div>
+  <div class="scenario-table-block">
+    <h3 class="scenario-table-title">Główne porównanie</h3>
+    <div class="scenario-table-wrap">
+      <table class="scenario-table">
+        ${renderHead()}
+        <tbody>${renderBody(mainRows)}</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="scenario-table-block">
+    <h3 class="scenario-table-title">Szczegóły składowych</h3>
+    <div class="scenario-table-wrap">
+      <table class="scenario-table details">
+        ${renderHead()}
+        <tbody>${renderBody(detailRows)}</tbody>
+      </table>
+    </div>
+  </div>
+  <p class="scenario-note">Najpierw porównujesz decyzję kosztową, a dopiero niżej rozbijasz jedzenie i napoje na elementy składowe.</p>`;
+  const nextInput=document.getElementById('sc_dorosli');
+  nextInput.addEventListener('input',renderScenariusze);
+  if(keepFocus){
+    nextInput.focus();
+    nextInput.setSelectionRange(String(nextInput.value).length,String(nextInput.value).length);
+  }
+}
+function ustawWidok(){
+  const scen=location.hash==="#scenariusze";
+  ["panel","cols","szczegolySek","cechy","reszta"].forEach(id=>document.getElementById(id).classList.toggle("view-hidden",scen));
+  document.getElementById('scenariusze').classList.toggle("view-hidden",!scen);
+  document.getElementById('navKalkulator').classList.toggle("active",!scen);
+  document.getElementById('navScenariusze').classList.toggle("active",scen);
+  if(scen) renderScenariusze();
+}
+
 document.getElementById('panel').innerHTML = panelHTML();
 document.getElementById('cols').innerHTML =
   `<div class="cols">${kartaHTML('boho',OFERTY.boho.nazwa,selBoho(),'var(--boho)')}${kartaHTML('kleser','Przystanek Południe (Kleser)',selKleser(),'var(--kleser)')}</div>
@@ -702,6 +876,8 @@ document.getElementById('k_styl').addEventListener('change',()=>{odswiezPakiety(
 document.getElementById('rok').addEventListener('change',()=>{odswiezPakiety();render();});
 document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',render));
 render();
+window.addEventListener('hashchange',ustawWidok);
+ustawWidok();
 
 document.getElementById('cechy').innerHTML = `
 <h3 class="sek" style="margin-top:8px">Porównanie cech</h3>
@@ -719,7 +895,7 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Opłata rezerwacyjna</td><td>8000 zł (wliczana w cenę)</td><td>brak w ofercie</td></tr>
 <tr><td>Kontakt</td><td>biuro@bohopogoria.pl · +48 507 807 478</td><td>kontakt@pracowniasmaku.com.pl · +48 537 187 805</td></tr>
 </tbody></table>
-<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho: stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 15% oraz zaokrąglone do pełnych złotych. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
+<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho: stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 9% oraz zaokrąglone do pełnych złotych. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
 
 // przełącznik motywu jasny/ciemny
 (function(){
@@ -742,10 +918,16 @@ function runSelfTests(){
   eq("Boho A suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 54500);
   // B: Boho sob, 70 dorosłych, Menu I, Napoje I -> 31500+6650+5000(20*250)=43150
   eq("Boho B dopłata", liczBoho({dorosli:70,dzieci50:0,dzieciGratis:0,dzien:"sob",menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 43150);
-  // Boho 2028: menu i napoje są podniesione o 15% względem oferty bazowej 2027, do pełnych złotych.
-  eq("Boho menu I 2028 +15%", cenaBoho("menu","I",2), 518);
-  eq("Boho napoje I 2028 +15%", cenaBoho("napoje","I",2), 109);
-  eq("Boho 2028 suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 62700);
+  // Boho 2028: menu i napoje są podniesione o 9% względem oferty bazowej 2027, do pełnych złotych.
+  eq("Boho menu I 2028 +9%", cenaBoho("menu","I",2), 491);
+  eq("Boho napoje I 2028 +9%", cenaBoho("napoje","I",2), 104);
+  eq("Boho 2028 suma", liczBoho({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,menu:"I",napoje:"I",opcje:{},nocleg:{}}).suma, 59500);
+  eq("Scenariusz PP 2027 bezalk", liczKleser(scenariuszeDane(70)[0].input).suma, 46550);
+  eq("Scenariusz PP 2027 alkohol", liczKleser(scenariuszeDane(70)[1].input).suma, 49700);
+  eq("Scenariusz PP 2028 bezalk", liczKleser(scenariuszeDane(70)[2].input).suma, 52500);
+  eq("Scenariusz PP 2028 alkohol", liczKleser(scenariuszeDane(70)[3].input).suma, 56000);
+  eq("Scenariusz Boho 2028 bezalk", liczBoho(scenariuszeDane(70)[4].input).suma, 47040);
+  eq("Scenariusz Boho 2028 alkohol", liczBoho(scenariuszeDane(70)[5].input).suma, 51590);
   // C: Kleser 2028 hi sob, 100, talerz I(240), napoje I(90), bufetZimno(90) -> 100*420=42000 < próg 75000 -> 75000
   eq("Kleser C próg", liczKleser({dorosli:100,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"I",napoje:"I",korkowe:false,dodatki:{bufetZimno:true}}).suma, 75000);
   // D: Kleser 2028 hi sob, 120, talerz III(330), napoje III(180), bufetZimno(90), meksyk(80), kolacjaSerw I(55) = 120*735=88200 > próg
