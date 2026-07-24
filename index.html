@@ -61,6 +61,64 @@ h1{font-family:var(--serif);font-size:38px;font-weight:560;letter-spacing:-.01em
 .brk{list-style:none;display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--line);padding-top:12px}
 .brk li{display:flex;justify-content:space-between;gap:12px;font-size:14px}
 .brk li span:last-child{font-variant-numeric:tabular-nums;color:var(--ink)}
+/* Grupa La Flor w rozbiciu */
+.brk li.brk-grp{display:block;margin-top:8px;padding:10px 12px;border:1px dashed var(--kleser,var(--line));border-radius:11px;background:rgba(159,122,90,.05)}
+.brk-grp .grp-head{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent2);margin-bottom:6px}
+.brk-grp .grp-head .grp-cap{font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px}
+.brk-grp .grp-items{list-style:none;display:flex;flex-direction:column;gap:4px;margin:0;padding:0}
+.brk-grp .grp-items li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted)}
+.brk-grp .grp-items li span:last-child{font-variant-numeric:tabular-nums;color:var(--ink)}
+.brk-grp .grp-sub{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);margin-top:7px;padding-top:6px;font-weight:700;font-size:14px}
+.brk-grp .grp-sub span:last-child{font-variant-numeric:tabular-nums;color:var(--accent2)}
+/* Rachunek zbiorczy PP */
+.rach-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.rach-meta{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.rach-block{margin-top:14px}
+.rach-block-title{font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.rach-block-title .rach-note{font-weight:500;text-transform:none;letter-spacing:0;font-size:11px}
+.rach-sub{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);margin-top:8px;padding-top:7px;font-weight:650;font-size:14px;font-variant-numeric:tabular-nums}
+.rach-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:16px;padding:14px 16px;border-radius:12px;background:linear-gradient(180deg,rgba(159,122,90,.10),rgba(159,122,90,.04));border:1px solid var(--kleser,var(--line))}
+.rach-total>span:first-child{font-weight:700;letter-spacing:.06em;font-size:14px}
+.rach-total>span:last-child{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;line-height:1;text-align:right}
+.rach-per{text-align:right;color:var(--muted);font-size:12.5px;margin-top:6px;font-variant-numeric:tabular-nums}
+.tier-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;padding:1px 7px;border-radius:999px;vertical-align:middle;text-transform:uppercase}
+.tier-badge.b{background:rgba(111,133,118,.16);color:var(--kleser)}
+.tier-badge.p{background:rgba(169,118,79,.16);color:var(--accent)}
+.tier-badge.own{background:rgba(35,32,28,.12);color:var(--ink)}
+/* Foldable (details/summary) */
+.fold{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);overflow:hidden;margin:8px 0 22px}
+.fold>summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;gap:12px;user-select:none;transition:background .18s}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::marker{content:""}
+.fold>summary:hover{background:rgba(133,124,112,.06)}
+.fold-chevron{flex-shrink:0;width:16px;height:16px;color:var(--muted);transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+.fold[open]>summary .fold-chevron{transform:rotate(90deg)}
+.fold-title{font-family:var(--serif);font-size:18px;font-weight:560;letter-spacing:-.01em}
+.fold-summary-extra{margin-left:auto;display:flex;align-items:baseline;gap:8px;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.fold-summary-extra b{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--ink)}
+.fold-body{padding:2px 20px 20px}
+.fold-body>.panel{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;padding:0;margin:0;position:static}
+/* Pozostałe koszty — wybór per-pozycja: wył · budżet · premium */
+.rk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:4px 22px;margin-top:14px}
+.rk-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.rk-info{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 9px;min-width:0}
+.rk-name{font-size:14px}
+.rk-price{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.rk-uwaga{color:var(--muted);font-size:11px;flex-basis:100%;line-height:1.35}
+.rk-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0;background:var(--card)}
+.rk-seg button{border:none;background:transparent;padding:5px 11px;font:inherit;font-size:11.5px;font-weight:600;cursor:pointer;color:var(--muted);transition:background .15s,color .15s;line-height:1}
+.rk-seg button+button{border-left:1px solid var(--line)}
+.rk-seg button:hover{background:rgba(133,124,112,.10)}
+.rk-seg button.active[data-st="off"]{background:var(--muted);color:#fff}
+.rk-seg button.active[data-st="b"]{background:var(--kleser);color:#fff}
+.rk-seg button.active[data-st="p"]{background:var(--accent);color:#fff}
+.rk-seg button.active[data-st="own"]{background:var(--ink);color:#fff}
+.rk-own{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:12px}
+.rk-own-input{width:82px;font:inherit;font-size:12.5px;padding:3px 7px;border:1px solid var(--accent);border-radius:7px;background:var(--card);color:var(--ink);font-variant-numeric:tabular-nums}
+.rk-row:not(.own) .rk-own{display:none}
+.rk-row.own .rk-price{display:none}
+.rk-row.off .rk-name{color:var(--muted)}
+.rk-setall{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap}
 .badge{display:inline-block;font-size:12px;padding:4px 11px;border-radius:999px;background:rgba(133,124,112,.10);color:var(--muted);font-weight:600;align-self:flex-start}
 .alert{font-size:13px;background:#fbf3e3;border:1px solid #ecd9ad;color:#8a5a00;padding:9px 12px;border-radius:10px}
 .diff{text-align:center;margin:10px 0 26px;font-size:15px;color:var(--muted)}
@@ -71,8 +129,6 @@ table.cechy th{background:#f0ebe2;font-size:12px;font-weight:700;text-transform:
 table.cechy tbody tr:hover td{background:rgba(169,118,79,.04)}
 table.cechy td:first-child{font-weight:600;width:180px}
 h3.sek{margin:10px 0 12px;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.btn-szcz{display:block;margin:0 auto 18px;font:inherit;font-weight:600;cursor:pointer;padding:11px 22px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow);color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
-.btn-szcz:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
 .szcz{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 26px}
 @media(max-width:760px){.szcz{grid-template-columns:1fr}}
 .szcz .col{display:flex;flex-direction:column;gap:12px}
@@ -189,6 +245,7 @@ html[data-theme="dark"]{color-scheme:dark}
 
 <section id="panel" class="wrap"></section>
 <section id="cols" class="wrap"></section>
+<section id="rachunek" class="wrap"></section>
 <section id="szczegolySek" class="wrap"></section>
 <section id="cechy" class="wrap"></section>
 <section id="reszta" class="wrap"></section>
@@ -236,8 +293,9 @@ const OFERTY = {
            pt:[16000,35000,50000], sob:[25000,45000,60000], nd:[10000,20000,30000] }
     },
     minOs:{pon:50,wt:50,sr:50,czw:50,pt:80,sob:90,nd:70}, // min gości/dzień (rok-niezależne)
-    laFlor:{ BASIC:{stolik:150,pm:1500}, STANDARD1:{stolik:220,pm:1500}, STANDARD2:{stolik:320,pm:2500}, PREMIUM:{stolik:350,pm:3500} },
+    laFlor:{ BASIC:{stolik:150,pm:1500}, STANDARD1:{stolik:220,pm:1500}, STANDARD2:{stolik:320,pm:2500}, PREMIUM:{stolik:350,pm:3500}, WYCENA2027:{stolik:280,pm:800} },
     laFlorDojazd:150,
+    laFlorOpcje:{ fairy:600, podwieszPM:400, ogrod:450, osobisty:345, podwiesz:{boki:750,cala:1200}, podtalerz:{krysztal:11,rattan:4} },
     cieplaKolacjaKeys:["meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska"],
     dzieci:{gratisDo:3, znizkaDo:10, znizka:0.5}
   }
@@ -280,13 +338,17 @@ const RESZTA = [
   {k:"planner", n:"Wedding planner", b:[0,0], p:[8000,22000], opt:true, uwaga:"wariant budżetowy zwykle 0 zł (samodzielnie)"},
   {k:"poprawiny", n:"Poprawiny", b:[1000,2500], p:[3000,6000], opt:true}
 ];
-const aktualnyTier = () => (document.querySelector('input[name=resztaTier]:checked')||{}).value==="premium" ? "p" : "b";
+// Stan per-pozycja: 'off' | 'b' (budżet) | 'p' (premium) | 'own' (własna kwota). Można mieszać warianty między pozycjami.
+const resztaStan = {}, resztaOwn = {};
+RESZTA.forEach(c=>{ resztaStan[c.k] = c.opt ? 'off' : 'b'; resztaOwn[c.k] = c.b[0]; });
 function liczReszta(){
-  const t=aktualnyTier(); let min=0,max=0;
+  let min=0,max=0;
   RESZTA.forEach(c=>{
-    const el=document.getElementById('rk_'+c.k);
-    const inc = el ? el.checked : !c.opt;
-    if(inc){ min+=c[t][0]; max+=c[t][1]; }
+    const st=resztaStan[c.k];
+    if(st==='off') return;
+    if(st==='own'){ const v=Math.max(0, resztaOwn[c.k]||0); min+=v; max+=v; return; }
+    const t = st==='p' ? 'p' : 'b';
+    min+=c[t][0]; max+=c[t][1];
   });
   return {min,max};
 }
@@ -398,7 +460,8 @@ const OPISY = {
       BASIC:"Stoły gości: zioła w doniczkach + lampka LED w złotym okuciu, numerek akrylowy, świece pływające. Stół PM: kompozycja kwiatowa lub punktowe wazoniki, świece, szklane tuby z woskiem, zwiewny materiał. (150 zł/stolik + 1500 zł stół PM + 150 zł dojazd)",
       STANDARD1:"Stoły gości: zioła + 2 wazoniki sezonowych kwiatów, numerek, świece. Stół PM jak BASIC. (220 zł/stolik + 1500 zł stół PM + 150 zł dojazd)",
       STANDARD2:"Stoły gości: punktowe wazoniki z kwiatami, numerek, świece. Stół PM: kompozycja typu łączka + kwiatowa instalacja i zwiewne materiały nad stołem. (od 320 zł/stolik + od 2500 zł stół PM + 150 zł dojazd)",
-      PREMIUM:"Stoły gości: kompozycja kwiatowa, numerek, świece. Stół PM: pełna dekoracja + drapowany materiał lub panel z napisem za stołem PM. (od 350 zł/stolik + od 3500 zł stół PM + 150 zł dojazd)"
+      PREMIUM:"Stoły gości: kompozycja kwiatowa, numerek, świece. Stół PM: pełna dekoracja + drapowany materiał lub panel z napisem za stołem PM. (od 350 zł/stolik + od 3500 zł stół PM + 150 zł dojazd)",
+      WYCENA2027:"Konkretna wycena La Flor dla wesela 11.07.2027 (~70 gości, kolory pudrowe). Stoły gości „florystyczna I\": kwiaty w małych wazonach, numerek akrylowy, lampioniki, 3× wysoka świeca beżowa, lampka LED (280 zł/stół). Stół PM (drewniany, uproszczony): obrus szyfonowy, wazoniki + kenzany, szklane tuby/świece, łączka kwiatowa przed stołem (800 zł). Opcje duże do wyboru osobno: fairy lights, podwieszenia szyfonu, dekoracja ogrodu, pakiet osobisty, podtalerze. (280 zł/stolik + 800 zł stół PM + 150 zł dojazd)"
     }
   }
 };
@@ -444,7 +507,6 @@ function szczegolyKleser(ok){
   if(ok.laflor && ok.laflor!=='brak') h += blokOpis("Dekoracje La Flor — "+ok.laflor, "poza progiem min.", O.laFlor[ok.laflor], true);
   return h;
 }
-let pokazSzczegoly=false;
 
 function liczBoho(w){
   const O=OFERTY.boho, yr=w.rok??1;
@@ -516,9 +578,16 @@ function liczKleser(w){
   if(w.laflor && w.laflor!=='brak'){
     const ciala=(w.dorosli||0)+(w.dzieci50||0)+(w.dzieciGratis||0);
     const stoliki=Math.max(1, Math.ceil(ciala/(w.osStolik||10)));
-    const dekor=liczLaFlor(w.laflor, stoliki);
-    r.push({k:"Dekoracje La Flor "+w.laflor+" ("+stoliki+" stolików + stół PM + dojazd)", v:dekor});
-    suma+=dekor;
+    const baza=liczLaFlor(w.laflor, stoliki);
+    r.push({k:"Pakiet "+w.laflor+" ("+stoliki+" stolików + stół PM + dojazd)", v:baza, g:"laflor"});
+    suma+=baza;
+    const lo=w.laFlorOpcje||{}, LO=OFERTY.kleser.laFlorOpcje;
+    if(lo.fairy){ r.push({k:"Fairy lights nad stołami", v:LO.fairy, g:"laflor"}); suma+=LO.fairy; }
+    if(lo.podwiesz && LO.podwiesz[lo.podwiesz]){ const c=LO.podwiesz[lo.podwiesz]; r.push({k:"Podwieszenia szyfon ("+(lo.podwiesz==='cala'?'cała sala':'boki sali')+")", v:c, g:"laflor"}); suma+=c; }
+    if(lo.podwieszPM){ r.push({k:"Podwieszenia nad stołem PM", v:LO.podwieszPM, g:"laflor"}); suma+=LO.podwieszPM; }
+    if(lo.ogrod){ r.push({k:"Dekoracja ogrodu", v:LO.ogrod, g:"laflor"}); suma+=LO.ogrod; }
+    if(lo.osobisty){ r.push({k:"Pakiet osobisty (bukiet + butonierka)", v:LO.osobisty, g:"laflor"}); suma+=LO.osobisty; }
+    if(lo.podtalerz && LO.podtalerz[lo.podtalerz]){ const c=ciala*LO.podtalerz[lo.podtalerz]; r.push({k:"Podtalerze "+(lo.podtalerz==='krysztal'?'kryształ':'rattan')+" ("+ciala+"×"+LO.podtalerz[lo.podtalerz]+" zł)", v:c, g:"laflor"}); suma+=c; }
   }
 
   // czas trwania z liczby ciepłych kolacji
@@ -531,32 +600,57 @@ function liczKleser(w){
 }
 
 function resztaSekcjaHTML(){
-  const rows = RESZTA.map(c=>`<label class="chk"><input type="checkbox" id="rk_${c.k}" ${c.opt?'':'checked'}> ${c.n} <span id="rkv_${c.k}" style="color:var(--muted);font-variant-numeric:tabular-nums"></span>${c.uwaga?`<span style="color:var(--muted);font-size:11px;flex-basis:100%"> · ${c.uwaga}</span>`:''}</label>`).join("");
+  const seg=(k,st,lab)=>`<button type="button" data-k="${k}" data-st="${st}">${lab}</button>`;
+  const rows = RESZTA.map(c=>`<div class="rk-row" id="rrow_${c.k}" data-k="${c.k}">
+      <div class="rk-info"><span class="rk-name">${c.n}</span> <span id="rkv_${c.k}" class="rk-price"></span><span class="rk-own"><input class="rk-own-input" type="number" min="0" step="50" data-k="${c.k}" id="rkin_${c.k}" value="${resztaOwn[c.k]}" aria-label="${c.n} — własna kwota"> zł</span>${c.uwaga?`<span class="rk-uwaga">${c.uwaga}</span>`:''}</div>
+      <div class="rk-seg" role="group" aria-label="${c.n} — wariant">${seg(c.k,'off','wył')}${seg(c.k,'b','budżet')}${seg(c.k,'p','premium')}${seg(c.k,'own','własna')}</div>
+    </div>`).join("");
   return `<div class="panel" style="position:static">
-    <div class="row" style="justify-content:space-between;align-items:center;gap:12px">
+    <div class="row" style="justify-content:space-between;align-items:center;gap:12px 18px">
       <h3 class="sek" style="margin:0">Pozostałe koszty wesela <span style="text-transform:none;font-weight:400">(poza salą i cateringiem)</span></h3>
-      <span class="chk" style="gap:12px">Wariant:
-        <label class="chk"><input type="radio" name="resztaTier" value="budzet" checked> budżetowo</label>
-        <label class="chk"><input type="radio" name="resztaTier" value="premium"> premium</label>
-        <button type="button" id="resztaToggle" class="mini-btn">Odznacz wszystkie</button>
+      <span class="rk-setall">Ustaw wszystkim:
+        <button type="button" class="mini-btn" data-all="b">budżet</button>
+        <button type="button" class="mini-btn" data-all="p">premium</button>
+        <button type="button" class="mini-btn" data-all="off">wyłącz</button>
       </span>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:7px 18px;margin-top:12px">${rows}</div>
+    <p class="sub" style="font-size:12px;margin-top:6px">Każdą pozycję ustawiasz osobno — <b>budżet</b> i <b>premium</b> można dowolnie mieszać.</p>
+    <div class="rk-grid">${rows}</div>
     <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:11px;display:flex;justify-content:space-between;font-weight:650;font-size:15px">
       <span>Pozostałe koszty razem</span><span id="reszta_sum" style="font-variant-numeric:tabular-nums">—</span>
     </div>
-    <p class="sub" style="font-size:12px;margin-top:8px">Szacunki: Śląsk, ~2027 r., 60–70 os. Źródło: <code>reports/koszty-wesela-slask-2027.md</code>. Doliczane do obu sal jednakowo (koszt niezależny od wyboru sali). Część pozycji (słodki stół, alkohol, dekoracje) bywa już w ofercie sali — odznacz, by nie liczyć podwójnie. Foto/wideo/muzyka = realne cenniki 2027; reszta = ceny 2025 +13%.</p>
+    <p class="sub" style="font-size:12px;margin-top:8px">Szacunki: Śląsk, ~2027 r., 60–70 os. Źródło: <code>reports/koszty-wesela-slask-2027.md</code>. Doliczane do obu sal jednakowo (koszt niezależny od wyboru sali). Część pozycji (słodki stół, alkohol, dekoracje) bywa już w ofercie sali — ustaw „wył", by nie liczyć podwójnie. Foto/wideo/muzyka = realne cenniki 2027; reszta = ceny 2025 +13%.</p>
   </div>`;
 }
 function aktualizujReszte(){
-  const t=aktualnyTier();
   RESZTA.forEach(c=>{
-    const sp=document.getElementById('rkv_'+c.k); if(!sp) return;
-    const [a,b]=c[t]; sp.textContent = a===b ? fmtPLN(a) : (fmtPLN(a)+"–"+fmtPLN(b));
+    const st=resztaStan[c.k];
+    const row=document.getElementById('rrow_'+c.k);
+    if(row){
+      row.classList.toggle('off', st==='off');
+      row.classList.toggle('own', st==='own');
+      const btns=row.querySelectorAll('.rk-seg button');
+      if(btns.forEach) btns.forEach(b=>b.classList.toggle('active', b.dataset.st===st));
+    }
+    const sp=document.getElementById('rkv_'+c.k);
+    if(sp){
+      if(st==='off'){ sp.textContent='—'; }
+      else if(st==='own'){ sp.textContent=''; } // wartość pokazuje pole wejściowe
+      else { const t=st==='p'?'p':'b'; const [a,b]=c[t]; sp.textContent = a===b ? fmtPLN(a) : (fmtPLN(a)+"–"+fmtPLN(b)); }
+    }
   });
   const R=liczReszta();
   const s=document.getElementById('reszta_sum'); if(s) s.textContent = fmtPLN(R.min)+" – "+fmtPLN(R.max);
   return R;
+}
+// Włączone pozycje pozostałych kosztów z zakresem wg wybranego per-pozycja wariantu (do rachunku)
+function resztaRozbicie(){
+  return RESZTA.filter(c=>resztaStan[c.k]!=='off').map(c=>{
+    const st=resztaStan[c.k];
+    if(st==='own'){ const v=Math.max(0, resztaOwn[c.k]||0); return {n:c.n, tier:'own', min:v, max:v}; }
+    const t = st==='p' ? 'p' : 'b';
+    return {n:c.n, tier:t, min:c[t][0], max:c[t][1]};
+  });
 }
 
 function panelHTML(){
@@ -640,10 +734,19 @@ function selKleser(){
     </div>
     <div class="grp">
       <span class="chk">Dekoracje La Flor:
-        <select id="k_laflor"><option value="brak">— brak —</option><option value="BASIC">BASIC</option><option value="STANDARD1">STANDARD 1</option><option value="STANDARD2">STANDARD 2</option><option value="PREMIUM">PREMIUM</option></select>
+        <select id="k_laflor"><option value="brak">— brak —</option><option value="BASIC">BASIC</option><option value="STANDARD1">STANDARD 1</option><option value="STANDARD2">STANDARD 2</option><option value="PREMIUM">PREMIUM</option><option value="WYCENA2027">Wycena 2027 (280/800)</option></select>
       </span>
       <label class="chk">os./stolik <input type="number" id="k_osStolik" min="1" value="10" style="width:56px"></label>
       <span class="chk" style="color:var(--muted);font-size:11px">La Flor poza progiem min.; jeśli wybrane — odznacz „Dekoracje sali" w pozostałych kosztach</span>
+    </div>
+    <div class="grp">
+      <span class="chk" style="color:var(--muted);font-size:11px">Opcje La Flor (liczone tylko gdy wybrany pakiet):</span>
+      <label class="chk"><input type="checkbox" id="k_lf_fairy"> Fairy lights (+600)</label>
+      <span class="chk">Podwieszenia: <select id="k_lf_podwiesz"><option value="">— brak —</option><option value="boki">boki sali (+750)</option><option value="cala">cała sala (+1200)</option></select></span>
+      <label class="chk"><input type="checkbox" id="k_lf_podwieszPM"> nad stołem PM (+400)</label>
+      <label class="chk"><input type="checkbox" id="k_lf_ogrod"> Dekoracja ogrodu (+450)</label>
+      <label class="chk"><input type="checkbox" id="k_lf_osobisty"> Pakiet osobisty (+345)</label>
+      <span class="chk">Podtalerze: <select id="k_lf_podtalerz"><option value="">— brak —</option><option value="krysztal">kryształ (11 zł/os)</option><option value="rattan">rattan (4 zł/os)</option></select></span>
     </div>
   </div>`;
 }
@@ -657,6 +760,7 @@ function odczytKleser(c){
   const v=id=>document.getElementById(id).value, ch=id=>document.getElementById(id).checked;
   return {...c, styl:v('k_styl'), pakiet:v('k_pakiet')||"I", napoje:v('k_napoje'), korkowe:ch('k_korkowe'),
     laflor:v('k_laflor')||'brak', osStolik:+document.getElementById('k_osStolik').value||10,
+    laFlorOpcje:{ fairy:ch('k_lf_fairy'), podwiesz:v('k_lf_podwiesz')||null, podwieszPM:ch('k_lf_podwieszPM'), ogrod:ch('k_lf_ogrod'), osobisty:ch('k_lf_osobisty'), podtalerz:v('k_lf_podtalerz')||null },
     dodatki:{ bufetZimno:ch('k_bufetZimno'), meksyk:ch('k_meksyk'), liveCooking:ch('k_liveCooking'),
       pizza:ch('k_pizza'), burgery:ch('k_burgery'), bliskiWschod:ch('k_bliskiWschod'),
       kolacjaSerw:v('k_kolacjaSerw')||null, cieplaMiska:v('k_cieplaMiska')||null, slodkiStol:v('k_slodkiStol')||null, serwisCiast:v('k_serwisCiast')||null }};
@@ -672,13 +776,29 @@ function kartaHTML(id, tytul, sel, kolor){
     <ul class="brk" id="${id}_brk"></ul>
   </div>`;
 }
+// Renderuje listę rozbicia; pozycje z g:"laflor" zwija w jeden blok „Dekoracje La Flor" z żywą podsumą
+function rozbicieHTML(rozbicie){
+  const norm = rozbicie.filter(x=>x.g!=="laflor");
+  const lf = rozbicie.filter(x=>x.g==="laflor");
+  const li = x=>`<li><span>${x.k}</span><span>${fmtPLN(x.v)}</span></li>`;
+  let html = norm.map(li).join("");
+  if(lf.length){
+    const sub = lf.reduce((s,x)=>s+x.v,0);
+    html += `<li class="brk-grp">
+      <div class="grp-head"><span>Dekoracje La Flor</span><span class="grp-cap">${lf.length} ${lf.length===1?"pozycja":"pozycje"}</span></div>
+      <ul class="grp-items">${lf.map(li).join("")}</ul>
+      <div class="grp-sub"><span>La Flor — razem</span><span>${fmtPLN(sub)}</span></div>
+    </li>`;
+  }
+  return html;
+}
 function wynikDoUI(id, wynik){
   document.getElementById(id+'_total').textContent = fmtPLN(wynik.suma);
   const c=stanWspolny(); const os=c.dorosli+c.dzieci50+c.dzieciGratis;
   document.getElementById(id+'_per').textContent = os>0 ? (fmtPLN(wynik.suma/os)+" / os ("+os+" gości)") : "";
   document.getElementById(id+'_czas').textContent = "Czas: "+wynik.czas+" h";
   document.getElementById(id+'_alerty').innerHTML = wynik.alerty.map(a=>`<div class="alert">${a}</div>`).join("");
-  document.getElementById(id+'_brk').innerHTML = wynik.rozbicie.map(x=>`<li><span>${x.k}</span><span>${fmtPLN(x.v)}</span></li>`).join("");
+  document.getElementById(id+'_brk').innerHTML = rozbicieHTML(wynik.rozbicie);
 }
 function render(){
   const c=stanWspolny();
@@ -695,13 +815,43 @@ function render(){
   ck.classList.toggle('win', wk.suma<wb.suma);
   const tanszy = wb.suma<=wk.suma ? OFERTY.boho.nazwa : OFERTY.kleser.nazwa;
   document.getElementById('diff').innerHTML = `Taniej: <b>${tanszy}</b> &nbsp;•&nbsp; różnica <b>${fmtPLN(Math.abs(wb.suma-wk.suma))}</b>`;
+  renderRachunek(ok, wk, R, c.dorosli+c.dzieci50+c.dzieciGratis);
   renderSzczegoly(ob, ok);
 }
+// Rachunek zbiorczy dla Przystanku Południe: itemizowana sala+catering (kwoty) + pozostałe koszty (zakres) → RAZEM (zakres, żywo).
+// Wypełnia body foldable (#rachunek-body) oraz podsumę w nagłówku (#rachunek-suma) widoczną też po zwinięciu.
+function renderRachunek(ok, wk, R, os){
+  const body=document.getElementById('rachunek-body'); if(!body) return;
+  const razemMin=wk.suma+R.min, razemMax=wk.suma+R.max;
+  const dzienNazwa=(DNI.find(d=>d[0]===ok.dzien)||[,ok.dzien])[1];
+  const zakres=(a,b)=> a===b ? fmtPLN(a) : fmtPLN(a)+" – "+fmtPLN(b);
+  const rItems=resztaRozbicie();
+  const tierLab=t=> t==='own'?'własna':t==='p'?'premium':'budżet';
+  const tiers=[...new Set(rItems.map(x=>x.tier))];
+  const tierNazwa = rItems.length===0 ? "—" : tiers.length>1 ? "mieszany" : tierLab(tiers[0]);
+  const tierBadge=t=>`<span class="tier-badge ${t}">${tierLab(t)}</span>`;
+  const resztaLi = rItems.length
+    ? rItems.map(x=>`<li><span>${x.n} ${tierBadge(x.tier)}</span><span>${zakres(x.min,x.max)}</span></li>`).join("")
+    : `<li style="color:var(--muted)"><span>— brak włączonych pozycji —</span><span></span></li>`;
+  body.innerHTML = `
+    <div class="rach-head"><span class="rach-meta">${LATA[ok.rok]} · ${dzienNazwa} · ${os} gości</span></div>
+    <div class="rach-block">
+      <div class="rach-block-title">Sala i catering</div>
+      <ul class="brk" style="border-top:none;padding-top:0">${rozbicieHTML(wk.rozbicie)}</ul>
+      <div class="rach-sub"><span>Podsuma sala i catering</span><span>${fmtPLN(wk.suma)}</span></div>
+    </div>
+    <div class="rach-block">
+      <div class="rach-block-title">Pozostałe koszty wesela <span class="rach-note">(zakres · wariant: ${tierNazwa} · edytuj w sekcji niżej)</span></div>
+      <ul class="brk" style="border-top:none;padding-top:0">${resztaLi}</ul>
+      <div class="rach-sub"><span>Podsuma pozostałe</span><span>${zakres(R.min,R.max)}</span></div>
+    </div>
+    <div class="rach-total"><span>RAZEM</span><span>${zakres(razemMin,razemMax)}</span></div>
+    ${os>0?`<div class="rach-per">≈ ${zakres(Math.round(razemMin/os),Math.round(razemMax/os))} / os</div>`:""}`;
+  const sumEl=document.getElementById('rachunek-suma');
+  if(sumEl) sumEl.innerHTML = `RAZEM <b>${zakres(razemMin,razemMax)}</b>`;
+}
 function renderSzczegoly(ob, ok){
-  const btn=document.getElementById('btnSzcz'), box=document.getElementById('szczBox');
-  if(!btn||!box) return;
-  btn.textContent = (pokazSzczegoly?"Ukryj":"Pokaż")+" szczegóły wybranych pakietów";
-  if(!pokazSzczegoly){ box.innerHTML=""; return; }
+  const box=document.getElementById('szczBox'); if(!box) return;
   box.innerHTML = `<div class="szcz">
     <div class="col"><h3 style="color:var(--boho)">Boho Pogoria — zawartość wyboru</h3>${szczegolyBoho(ob)}</div>
     <div class="col"><h3 style="color:var(--kleser)">Przystanek Południe (Kleser) — zawartość wyboru</h3>${szczegolyKleser(ok)}</div>
@@ -827,7 +977,7 @@ function renderScenariusze(){
 }
 function ustawWidok(){
   const scen=location.hash==="#scenariusze";
-  ["panel","cols","szczegolySek","cechy","reszta"].forEach(id=>document.getElementById(id).classList.toggle("view-hidden",scen));
+  ["panel","cols","rachunek","szczegolySek","cechy","reszta"].forEach(id=>document.getElementById(id).classList.toggle("view-hidden",scen));
   document.getElementById('scenariusze').classList.toggle("view-hidden",!scen);
   document.getElementById('navKalkulator').classList.toggle("active",!scen);
   document.getElementById('navScenariusze').classList.toggle("active",scen);
@@ -838,25 +988,30 @@ document.getElementById('panel').innerHTML = panelHTML();
 document.getElementById('cols').innerHTML =
   `<div class="cols">${kartaHTML('boho',OFERTY.boho.nazwa,selBoho(),'var(--boho)')}${kartaHTML('kleser','Przystanek Południe (Kleser)',selKleser(),'var(--kleser)')}</div>
    <div class="diff" id="diff"></div>`;
+// Ikona zwijania (chevron) współdzielona przez sekcje foldable
+const CHEVRON = `<svg class="fold-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>`;
+// Rachunek — foldable shell (body wypełnia renderRachunek; podsuma widoczna też po zwinięciu)
+document.getElementById('rachunek').innerHTML = `<details class="fold" id="rachunekFold" open>
+  <summary>${CHEVRON}<span class="fold-title">Rachunek — Przystanek Południe</span><span class="fold-summary-extra" id="rachunek-suma"></span></summary>
+  <div class="fold-body" id="rachunek-body"></div>
+</details>`;
 document.getElementById('reszta').innerHTML = resztaSekcjaHTML();
-// odznacz/zaznacz wszystkie pozycje pozostałych kosztów
-(function(){
-  const btn=document.getElementById('resztaToggle');
-  const boxy=()=>RESZTA.map(c=>document.getElementById('rk_'+c.k)).filter(Boolean);
-  const odswiezLabel=()=>{ btn.textContent = boxy().some(b=>b.checked) ? 'Odznacz wszystkie' : 'Zaznacz wszystkie'; };
-  odswiezLabel();
-  btn.addEventListener('click',()=>{
-    const zaznacz = !boxy().some(b=>b.checked); // wszystko odznaczone → zaznacz
-    boxy().forEach(b=>b.checked=zaznacz);
-    odswiezLabel();
-    render();
-  });
-  boxy().forEach(b=>b.addEventListener('change',odswiezLabel));
-})();
+// Pozostałe koszty — wybór per-pozycja (wył/budżet/premium) + „ustaw wszystkim", przez delegację zdarzeń
+document.getElementById('reszta').addEventListener('click', e=>{
+  const setBtn = e.target.closest('[data-all]');
+  if(setBtn){ const v=setBtn.dataset.all; RESZTA.forEach(c=>{ resztaStan[c.k]=v; }); render(); return; }
+  const seg = e.target.closest('.rk-seg button[data-st]');
+  if(seg){ resztaStan[seg.dataset.k]=seg.dataset.st; render(); }
+});
+document.getElementById('reszta').addEventListener('input', e=>{
+  const inp = e.target.closest('.rk-own-input');
+  if(inp){ resztaOwn[inp.dataset.k]=Math.max(0, +inp.value||0); render(); }
+});
 document.getElementById('szczegolySek').innerHTML =
-  `<button id="btnSzcz" class="btn-szcz" type="button">Pokaż szczegóły wybranych pakietów</button>
-   <div id="szczBox"></div>`;
-document.getElementById('btnSzcz').addEventListener('click',()=>{ pokazSzczegoly=!pokazSzczegoly; render(); });
+  `<details class="fold" id="szczFold">
+    <summary>${CHEVRON}<span class="fold-title">Szczegóły wybranych pakietów</span><span class="fold-summary-extra">Boho ↔ Przystanek Południe</span></summary>
+    <div class="fold-body" id="szczBox"></div>
+  </details>`;
 function odswiezPakiety(){
   const styl=document.getElementById('k_styl').value;
   const yr=+document.getElementById('rok').value||0;
@@ -874,13 +1029,16 @@ document.getElementById('rok').value="1"; // domyślnie 2027
 odswiezPakiety();
 document.getElementById('k_styl').addEventListener('change',()=>{odswiezPakiety();render();});
 document.getElementById('rok').addEventListener('change',()=>{odswiezPakiety();render();});
-document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',render));
+// Pola własnej kwoty obsługuje delegacja `input` na #reszta (aktualizuje resztaOwn przed renderem) — wykluczamy je tutaj, by nie renderować dwa razy ze starą wartością
+document.querySelectorAll('input:not(.rk-own-input),select').forEach(el=>el.addEventListener('input',render));
 render();
 window.addEventListener('hashchange',ustawWidok);
 ustawWidok();
 
 document.getElementById('cechy').innerHTML = `
-<h3 class="sek" style="margin-top:8px">Porównanie cech</h3>
+<details class="fold">
+<summary>${CHEVRON}<span class="fold-title">Porównanie cech</span><span class="fold-summary-extra">Boho ↔ Przystanek Południe</span></summary>
+<div class="fold-body">
 <table class="cechy"><thead><tr><th>Cecha</th><th style="color:var(--boho)">Boho Pogoria</th><th style="color:var(--kleser)">Przystanek Południe (Kleser)</th></tr></thead><tbody>
 <tr><td>Lokalizacja</td><td>Dąbrowa Górnicza, nad jez. Pogoria I</td><td>Mysłowice, ul. Murckowska 1</td></tr>
 <tr><td>Pojemność sali</td><td>do 200 osób (sala 450 m²)</td><td>do 150 osób (+ ogród zimowy)</td></tr>
@@ -895,7 +1053,9 @@ document.getElementById('cechy').innerHTML = `
 <tr><td>Opłata rezerwacyjna</td><td>8000 zł (wliczana w cenę)</td><td>brak w ofercie</td></tr>
 <tr><td>Kontakt</td><td>biuro@bohopogoria.pl · +48 507 807 478</td><td>kontakt@pracowniasmaku.com.pl · +48 537 187 805</td></tr>
 </tbody></table>
-<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho: stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 9% oraz zaokrąglone do pełnych złotych. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>`;
+<p class="sub" style="font-size:12px;margin-top:10px">Szacunki orientacyjne. Boho: stawki bazowe z oferty 2027, a menu i napoje na 2028 podwyższone o 9% oraz zaokrąglone do pełnych złotych. Przystanek Południe 2026/2027/2028 — ceny menu oraz progi min. budżetu per rok × sezon (VI–IX / X–V) z oferty mailowej; dekoracje wg cennika La Flor (doliczane poza progiem). Poniedziałek przyjęty jak wt–czw. Ceny do potwierdzenia w salach.</p>
+</div>
+</details>`;
 
 // przełącznik motywu jasny/ciemny
 (function(){
@@ -945,6 +1105,17 @@ function runSelfTests(){
   // I: D + La Flor BASIC (120 ciał /10 = 12 stolików -> 12*150+1500+150=3450) -> 88200+3450=91650
   eq("Kleser D + La Flor", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"III",korkowe:false,laflor:"BASIC",osStolik:10,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 91650);
 
+  // L: Wycena La Flor 2027 baza: 8 stolików = 8*280+800+150 = 3190
+  eq("La Flor Wycena2027 baza", liczLaFlor("WYCENA2027",8), 3190);
+  // M: opcje La Flor doliczane na wierzch (fairy600 + podwiesz cała1200 + nadPM400 + ogród450 + osobisty345 + podtalerze 70×11=770) = 3765
+  const wLF={dorosli:70,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:1,sezon:"hi",styl:"talerz",pakiet:"II",napoje:"II",korkowe:false,laflor:"WYCENA2027",osStolik:10,dodatki:{}};
+  const lfBez=liczKleser({...wLF}).suma;
+  const lfZ=liczKleser({...wLF,laFlorOpcje:{fairy:true,podwiesz:"cala",podwieszPM:true,ogrod:true,osobisty:true,podtalerz:"krysztal"}}).suma;
+  eq("La Flor Wycena2027 opcje delta", lfZ-lfBez, 3765);
+  // M2: grupa „laflor" w rozbiciu = baza(2910) + opcje(3765) = 6675 (podsuma pokazywana w rachunku/karcie)
+  const lfRoz=liczKleser({...wLF,laFlorOpcje:{fairy:true,podwiesz:"cala",podwieszPM:true,ogrod:true,osobisty:true,podtalerz:"krysztal"}}).rozbicie.filter(x=>x.g==="laflor");
+  eq("La Flor grupa razem", lfRoz.reduce((s,x)=>s+x.v,0), 6675);
+
   // J: Korkowe = Pakiet I bezalk. + korkowe (NIE zamiast napojów). 2028 hi sob, 120, talerz III(330)+P1(90)+korkowe(40)+bufetZimno(90)+meksyk(80)+kolacjaSerw I(55)=685 ×120=82200 > próg 75000
   eq("Kleser korkowe + P1", liczKleser({dorosli:120,dzieci50:0,dzieciGratis:0,dzien:"sob",rok:2,sezon:"hi",styl:"talerz",pakiet:"III",napoje:"I",korkowe:true,dodatki:{bufetZimno:true,meksyk:true,kolacjaSerw:"I"}}).suma, 82200);
   // K: Serwis ciast z zewnątrz (tort+słodki stół 15 zł/os) doliczany. D(735) + 15 = 750 ×120 = 90000
@@ -953,6 +1124,20 @@ function runSelfTests(){
   // E: Reszta wesela, wariant budżetowy domyślny (bez plannera i poprawin)
   eq("Reszta budżet min", liczReszta().min, 32700);
   eq("Reszta budżet max", liczReszta().max, 53050);
+  // E2: mieszany wariant — jedna pozycja na premium podnosi sumę o różnicę p−b (foto: b[4800,5900] → p[6800,9000])
+  const _foto=resztaStan.foto; resztaStan.foto='p';
+  const rMix=liczReszta(); resztaStan.foto=_foto;
+  const rBase=liczReszta();
+  eq("Reszta mix foto Δmin", rMix.min-rBase.min, 2000);
+  eq("Reszta mix foto Δmax", rMix.max-rBase.max, 3100);
+  // E3: własna kwota — nadpisuje zakres pozycji punktem (foto budżet [4800,5900] → własna 1234)
+  const _fs=resztaStan.foto, _fo=resztaOwn.foto;
+  resztaStan.foto='own'; resztaOwn.foto=1234;
+  const rOwn=liczReszta();
+  resztaStan.foto=_fs; resztaOwn.foto=_fo;
+  const rBz=liczReszta();
+  eq("Reszta własna foto Δmin", rOwn.min-rBz.min, 1234-4800);
+  eq("Reszta własna foto Δmax", rOwn.max-rBz.max, 1234-5900);
 
   // Pokrycie opisów: każdy wybieralny klucz musi mieć wpis w OPISY
   const has=(o,k)=>o&&o[k]!=null&&(typeof o[k]!=='object'||Object.keys(o[k]).length>0);
@@ -966,6 +1151,7 @@ function runSelfTests(){
   cov("opis kleser.korkowe", has(OPISY.kleser,"korkowe"));
   ["bufetZimno","meksyk","liveCooking","pizza","burgery","bliskiWschod","kolacjaSerw","cieplaMiska","slodkiStol","serwisCiast"].forEach(k=>cov("opis kleser.dodatki."+k, has(OPISY.kleser.dodatki,k)));
   ["I","II","III"].forEach(k=>{ cov("opis kolacjaSerw."+k, has(OPISY.kleser.dodatki.kolacjaSerw,k)); cov("opis cieplaMiska."+k, has(OPISY.kleser.dodatki.cieplaMiska,k)); });
+  Object.keys(OFERTY.kleser.laFlor).forEach(k=>cov("opis kleser.laFlor."+k, has(OPISY.kleser.laFlor,k)));
 
   const fail=T.filter(t=>!t.ok);
   console.log("%cSELF-TEST: "+(fail.length?fail.length+" FAIL":"WSZYSTKIE OK"), "font-weight:bold;color:"+(fail.length?"#c0392b":"#27ae60"));
